@@ -1,0 +1,38 @@
+{
+  "name": "eventsapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iWebsapp/EventsAPI.git"
+  },
+  "author": "Luis Manuel Castillo Zamorano",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iWebsapp/EventsAPI/issues"
+  },
+  "homepage": "https://github.com/iWebsapp/EventsAPI#readme",
+  "devDependencies": {
+    "nodemon": "^1.18.3",
+    "standard": "^11.0.1"
+  },
+  "dependencies": {
+    "async": "^2.6.1",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "body-parser": "^1.18.3",
+    "chalk": "^2.4.1",
+    "debug": "^3.1.0",
+    "express": "^4.16.3",
+    "express-asyncify": "^1.0.0",
+    "express-form-data": "^2.0.6",
+    "express-jwt": "^5.3.1",
+    "express-jwt-permissions": "^1.2.1",
+    "jsonwebtoken": "^8.3.0",
+    "sequelize": "^4.38.0"
+  }
+}
