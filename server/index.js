@@ -15,7 +15,7 @@ import { users } from './routes'
 const server = http.Server(app)
 //PORT API
 const PORT = config.settings.port
-const debug = new Debug('EventsApi:root')
+const debug = new Debug(`${config.settings.name}:lobby`)
 
 app.use(express.static('client'))
 

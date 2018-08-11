@@ -9,7 +9,7 @@ module.exports = {
   },
   settings: {
     secret: process.env.SECRET || 'platzi',
-    name: process.env.NAME || 'platzi',
+    name: process.env.NAME || 'EventsApi',
     port: process.env.PORT || 2715,
   }
 }
