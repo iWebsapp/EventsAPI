@@ -1,4 +1,4 @@
-export const user = [{
+export const users = [{
     idUser: 1,
     avatar: '1.jpg',
     email: 'luis@mail.com',
@@ -21,8 +21,8 @@ export const user = [{
     state: 0,
     createdAt: new Date()
 },{
-    idUser: 5,
-    avatar: '1.jpg',
+    idUser: 3,
+    avatar: '3.jpg',
     email: 'dolores@mail.com',
     password: 'jimyluis',
     name: 'Dolores Imelda',

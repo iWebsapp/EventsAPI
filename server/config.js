@@ -8,8 +8,9 @@ module.exports = {
     host: process.env.DB_HOST || 'localhost'
   },
   settings: {
-    secret: process.env.SECRET || 'platzi',
-    name: process.env.NAME || 'EventsApi',
+    secret: process.env.SECRET || 'EventAppSecret',
+    name: process.env.NAME || 'EventApi',
     port: process.env.PORT || 2715,
+    exp: process.env.EXP || 86400
   }
 }

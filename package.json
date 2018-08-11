@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "concurrently -r 'npm run start:server' ",
-    "start:server": "NODE_ENV=development DEBUG=EventsApi* nodemon server/index.js --exec babel-node",
+    "start:server": "NODE_ENV=development DEBUG=EventApi* nodemon server/index.js --exec babel-node",
     "lint": "standard"
   },
   "repository": {
