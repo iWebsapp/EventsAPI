@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>Documentacion</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="./main.js"></script>
+    <style media="screen">
+      *{
+        margin: 0px;
+        padding: 0px;
+        font-size: 16px;
+        color: #333;
+        /* border-radius: 10px; */
+      }
+      body{
+        background: #f2f2f2;
+      }
+      button{
+        text-decoration: none !important;
+        display: block !important;
+        width: 100% !important;
+        text-align: left !important;
+        margin: -12px -20px -12px !important;
+        padding: 10px !important;
+      }
+      #messages,
+      form{
+        display: block;
+        position: relative;
+        width: 400px;
+        margin: 27px auto;
+      }
+      #messages{
+        background: pink;
+        padding: 10px;
+        width: 380px;
+        padding-bottom: 15px;
+        border-radius: 5px;
+      }
+      form input[type="text"],
+      textarea{
+        display: block;
+        padding: 10px;
+        outline: none;
+        border: none;
+        border-radius: 5px;
+        border: solid 1px #eee;
+        margin-bottom: 5px;
+        width: 94.5%;
+      }
+      form input[type="submit"]{
+        display: block;
+        padding: 10px;
+        outline: none;
+        border-radius: 5px;
+        border: solid 1px #eee;
+        width: 100px;
+        background: blue;
+        color: #fff;
+      }
+      .message{
+        display: block;
+        background: blue;
+        padding: 0px;
+        border-radius: 5px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+      }
+      .message strong{
+        display: block;
+        padding: 5px;
+        background: blue;
+        border-radius: 5px;
+        color: #fff;
+      }
+      .message p{
+        display: inline;
+        padding: 5px;
+        background: #eee;
+        margin-top: 7px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+      }
+      .content{
+        display: block;
+        width: 900px;
+        margin: 27px auto;
+      }
+      .card-title{
+        font-weight: bold;
+        font-size: 27px;
+      }
+      .card-columns .card{
+        border: none;
+        background: rgba(247,247,247,1);
+      }
+      .card-ul li{
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- <div id="messages"></div>
+    <form onsubmit="return addMessage(this);">
+      <input type="text" id="idUser" placeholder="Id usuario:">
+      <input type="text" id="transmitter" placeholder="Emisor:">
+      <input type="text" id="receiver" placeholder="Receptor:">
+      <textarea id="message" rows="8" cols="10"></textarea>
+      <input type="submit" value="Enviar">
+    </form> -->
+    <div class="content">
+
+
+      <div class="accordion" id="accordionExample">
+          <div class="card">
+            <div class="card-header" id="headingOne">
+              <h5 class="mb-0">
+                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  Usuario Module
+                </button>
+              </h5>
+            </div>
+
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+              <div class="card-body">
+
+                      <div class="card-columns">
+
+                          <div class="card">
+                              <div class="card-body">
+                                <h5 class="card-title">Login <i>POST</i> </h5>
+                                <p class="card-text">
+                                  <ul class="card-ul">
+                                    <li>
+                                      <strong>URL:</strong>
+                                      <p>/api/auths/login</p>
+                                    </li>
+                                    <li>
+                                      <strong>email:</strong>
+                                      <p>Debe ser un correo valido</p>
+                                    </li>
+                                    <li>
+                                      <strong>password:</strong>
+                                      <p>Debe tener mas de 8 digitos</p>
+                                    </li>
+                                  </ul>
+                                </p>
+                              </div>
+                          </div>
+
+                          <div class="card">
+                              <div class="card-body">
+                                <h5 class="card-title">Conexion activa <i>POST</i> </h5>
+                                <p class="card-text">
+                                  <ul class="card-ul">
+                                    <li>
+                                      <strong>URL:</strong>
+                                      <p>/api/auths/conextion/active/:id</p>
+                                    </li>
+                                  </ul>
+                                </p>
+                              </div>
+                          </div>
+
+                          <div class="card">
+                              <div class="card-body">
+                                <h5 class="card-title">Conexion inactiva <i>POST</i> </h5>
+                                <p class="card-text">
+                                  <ul class="card-ul">
+                                    <li>
+                                      <strong>URL:</strong>
+                                      <p>/api/auths/conextion/desactive/:id</p>
+                                    </li>
+                                  </ul>
+                                </p>
+                              </div>
+                          </div>
+
+                          <div class="card">
+                              <div class="card-body">
+                                <h5 class="card-title">Crear cuenta <i>POST</i></h5>
+                                <p class="card-text">
+                                  <ul class="card-ul">
+                                    <li>
+                                      <strong>URL:</strong>
+                                      <p>/api/auths/add</p>
+                                    </li>
+                                    <li>
+                                      <strong>avatar:</strong>
+                                      <p>Debe ser una imagen</p>
+                                    </li>
+                                    <li>
+                                      <strong>email:</strong>
+                                      <p>Debe ser un correo valido</p>
+                                    </li>
+                                    <li>
+                                      <strong>password:</strong>
+                                      <p>Debe tener mas de 8 digitos</p>
+                                    </li>
+                                    <li>
+                                      <strong>name:</strong>
+                                      <p>Debe ser nombre</p>
+                                    </li>
+                                    <li>
+                                      <strong>lastname:</strong>
+                                      <p>Debe ser apellido</p>
+                                    </li>
+                                    <li>
+                                      <strong>typeUser:</strong>
+                                      <p>Debe ser alumno o docente</p>
+                                    </li>
+                                    <li>
+                                      <strong>state:</strong>
+                                      <p>Debe ser 0 o 1</p>
+                                    </li>
+                                    <li>
+                                      <strong>carrier:</strong>
+                                      <p>Debe ser un string con el id de la carrera</p>
+                                    </li>
+                                  </ul>
+                                </p>
+                              </div>
+                          </div>
+
+
+                          <div class="card">
+                              <div class="card-body">
+                                <h5 class="card-title">Eliminar cuenta <i>DELETE</i></h5>
+                                <p class="card-text">
+                                  <ul class="card-ul">
+                                    <li>
+                                      <strong>URL:</strong>
+                                      <p>/api/auths/delete</p>
+                                    </li>
+                                    <li>
+                                      <strong>id:</strong>
+                                      <p>Debe ser un id</p>
+                                    </li>
+                                  </ul>
+                                </p>
+                              </div>
+                          </div>
+
+                          <div class="card">
+                              <div class="card-body">
+                                <h5 class="card-title">Editar usuario <i>POST</i></h5>
+                                <p class="card-text">
+                                  <ul class="card-ul">
+                                    <li>
+                                      <strong>URL:</strong>
+                                      <p>/api/auths/edit/:id</p>
+                                    </li>
+                                    <li>
+                                      <strong>NOTA:</strong>
+                                      <p>Lo mismo para crear cuenta con un id</p>
+                                    </li>
+                                  </ul>
+                                </p>
+                              </div>
+                          </div>
+
+                          <div class="card">
+                              <div class="card-body">
+                                <h5 class="card-title">Obtener todos los usuarios <i>GET</i></h5>
+                                <p class="card-text">
+                                  <ul class="card-ul">
+                                    <li>
+                                      <strong>URL:</strong>
+                                      <p>/api/auths/</p>
+                                    </li>
+                                  </ul>
+                                </p>
+                              </div>
+                          </div>
+                      </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingTwo">
+              <h5 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Teacher Module
+                </button>
+              </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+              <div class="card-body">
+
+                <div class="card-columns">
+                    <div class="card">
+                        <div class="card-body">
+                          <h5 class="card-title">Obtener todos los maestros <i>GET</i> </h5>
+                          <p class="card-text">
+                            <ul class="card-ul">
+                              <li>
+                                <strong>URL:</strong>
+                                <p>/api/teachers</p>
+                              </li>
+                            </ul>
+                          </p>
+                        </div>
+                    </div>
+
+
+                    <div class="card">
+                        <div class="card-body">
+                          <h5 class="card-title">Obtener un maestro <i>GET</i></h5>
+                          <p class="card-text">
+                            <ul class="card-ul">
+                              <li>
+                                <strong>URL:</strong>
+                                <p>/api/teachers/:id</p>
+                              </li>
+                            </ul>
+                          </p>
+                        </div>
+                    </div>
+
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header" id="headingThree">
+              <h5 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  Student Module
+                </button>
+              </h5>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+              <div class="card-body">
+
+                    <div class="card-columns">
+
+                        <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title">Obtener todos los estudiantes <i>GET</i> </h5>
+                              <p class="card-text">
+                                <ul class="card-ul">
+                                  <li>
+                                    <strong>URL:</strong>
+                                    <p>/api/students/</p>
+                                  </li>
+                                </ul>
+                              </p>
+                            </div>
+                        </div>
+
+
+                        <div class="card">
+                            <div class="card-body">
+                              <h5 class="card-title">Obtener un maestro <i>GET</i></h5>
+                              <p class="card-text">
+                                <ul class="card-ul">
+                                  <li>
+                                    <strong>URL:</strong>
+                                    <p>/api/students/:id</p>
+                                  </li>
+                                </ul>
+                              </p>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+  </body>
+</html>
