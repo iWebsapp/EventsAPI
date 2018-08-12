@@ -35,16 +35,32 @@ function findUserByPassword (pass) {
 
 // function create token from user
 function createToken (user) {
-  const newUser = {
+  const users = {
     idUser: user.idUser,
     permissions: user.permissions
   }
-  return jwt.sign({ newUser }, config.settings.secret, { expiresIn: config.settings.exp })
+  return jwt.sign({ users }, config.settings.secret, { expiresIn: config.settings.exp })
 }
 
-// funcion cromprobate valid token
-function validToken (user) {
-  return jwt.sign({ user }, config.settings.secret, { expiresIn: config.settings.exp })
+//function verify token
+function verifyToken (token) {
+  return jwt.verify(token, config.settings.secret, (err, auth) => {
+    if(err){
+      return 'This token is invalid'
+    } else {
+      return 'Correct verification'
+    }
+  })
+}
+
+
+//meet information the jwt
+function meetInfoToken(token){
+  const tokenArray = token.split(".")
+  const tokenString = tokenArray[1].toString()
+  const tokenDesencryp = Buffer.from(tokenString, 'base64').toString()
+  const tokenObject = JSON.parse(tokenDesencryp)
+  return tokenObject.users
 }
 
 // function send email with create user
@@ -174,4 +190,38 @@ export const uploadAvatarUserFunction = (req, res, next) => {
     fs.rename(req.files.avatar.path, 'server/images/' + imgName.idUser + '.' + extensionImage)
     user.avatar = imgName.idUser + '.' + extensionImage
   }
+}
+
+export const activateUserFunction = (req,res, next) => {
+  const token = req.params.id
+  const verify = verifyToken(token)
+  if (verify == "Correct verification"){
+    const idU = meetInfoToken(token)
+    for (var i = 0; i < usersModel["users"].length; i++){
+        if (usersModel["users"][i].idUser == idU.idUser){
+            const user = usersModel["users"][i]
+            user.state = 0
+            usersModel["users"].splice(i, 1, user)
+        }
+    }
+    req.message = "This user has been activated with success"
+    next()
+  } else {
+    res.status(401).json({ message: 'This token is invalid' })
+  }
+}
+
+
+// FORMAT OF TOKEN
+// Authorization: Bearer <access_token>
+export const verifyHeadersTokenFunction = (req,res, next) => {
+   const bearerHeader = req.headers['authorization']
+   if(typeof bearerHeader !== 'undefined') {
+       const bearer = bearerHeader.split(' ')
+       const bearerToken = bearer[1]
+       req.token = bearerToken
+       next()
+   } else {
+       res.status(403).json({ message: 'This not is a token' })
+   }
 }

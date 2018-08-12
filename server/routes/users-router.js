@@ -4,8 +4,8 @@ const express = require('express')
 const config = require('../config')
 const async = require('async')
 const Debug = require('debug')
-const { findAllUsersFunction, loginUserFunction, createUserFunction } = require('../functions')
-const { loginUserValid } = require('../validations')
+const { findAllUsersFunction, loginUserFunction, createUserFunction, activateUserFunction, verifyTokenFunction } = require('../functions')
+const { loginUserValid, idValid } = require('../validations')
 const app = express.Router()
 const debug = new Debug(`${config.settings.name}:router:users`)
 const usersModel = require('../models/users-model')
@@ -24,7 +24,7 @@ app.post('/login', loginUserValid, loginUserFunction, (req, res, next) => {
       res.status(500).json({ message: 'An error has occurred' })
     }
   } catch (e) {
-    return handleFatalError(e)
+    return handleError(e)
   }
 })
 
@@ -40,11 +40,28 @@ app.post('/create', loginUserValid, createUserFunction, (req, res, next) => {
       res.status(500).json({ message: 'An error has occurred' })
     }
   } catch (e) {
-    return handleFatalError(e)
+    return handleError(e)
   }
 })
 
-function handleFatalError (err) {
+
+// route activate user
+app.post('/activate/:id', activateUserFunction, (req, res, next) => {
+  try{
+      const { message } = req
+      if (message == 'This user has been activated with success') {
+          res.status(200).json({
+            message
+          })
+      } else {
+          res.status(500).json({ message: 'An error has occurred' })
+      }
+  } catch(e){
+      return handleError(e)
+  }
+})
+
+function handleError (err) {
   console.error(`${chalk.red('[Error]')} ${err.message}`)
   console.error(err.stack)
 }
