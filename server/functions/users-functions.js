@@ -1,3 +1,5 @@
+'use strict'
+
 const Debug = require('debug')
 const config = require('../config')
 const usersModel = require('../models/users-model')
@@ -5,10 +7,10 @@ const jwt = require('jsonwebtoken')
 const helper = require('sendgrid').mail
 const auth = require('express-jwt')
 const guard = require('express-jwt-permissions')()
-
 const debug = new Debug(`${config.settings.name}:functions:users`)
+const chalk = require('chalk')
 
-//function find user email
+//function find user by email
 function findUserByEmail(email){
     let arrayUser = []
     for(var i = 0; i < usersModel.users.length; i ++){
@@ -19,6 +21,7 @@ function findUserByEmail(email){
     return arrayUser
 }
 
+//function find user by passoword
 function findUserByPassword(pass){
   for(var i = 0; i < usersModel.users.length; i ++){
       if(usersModel.users[i].password == pass){
@@ -28,18 +31,23 @@ function findUserByPassword(pass){
   return false
 }
 
-//note remove passowrd form the token
+//function create token from user
 function createToken(user){
-  return jwt.sign({ user }, config.settings.secret, { expiresIn: config.settings.exp })
+  const newUser = {
+    idUser: user.idUser,
+    permissions: user.permissions
+  }
+  return jwt.sign({ newUser }, config.settings.secret, { expiresIn: config.settings.exp })
 }
 
+//funcion cromprobate valid token
 function validToken(user){
   return jwt.sign({ user }, config.settings.secret, { expiresIn: config.settings.exp })
 }
 
 //function create new user
 export const createUserFunction = ( req, res, next ) => {
-
+  const { email, password } = req.body
 }
 
 //funcion login user
@@ -53,18 +61,17 @@ export const loginUserFunction = ( req, res, next ) => {
       const valid = findUserByPassword(password)
       if(!valid){
         debug('the passwords do not match')
-        return next(new Error('The password do not match'))
+        res.status(400).json({ message: "The password do not match" })
       } else {
-        const token = createToken(user)
-        res.status(200).json({
-          message: 'Login success',
-          token,
-          idUser: user.idUser
-        })
+        const token = createToken(user[0])
+        req.message = 'Login success'
+        req.token = token
+        req.idUser = user.idUser
+        next()
       }
 
     } else {
       debug(`User with email ${email} not found`)
-      return next(new Error('user not found'))
+      res.status(404).json({ message: "User not found" })
     }
 }

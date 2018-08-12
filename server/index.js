@@ -42,11 +42,15 @@ if (process.env.NODE_ENV === 'development') {
 app.use((err, req, res, next) => {
   debug(`Error: ${err.message}`)
 
-  if (err.message.match(/not found/)) {
+  if (err.message.match(/User not found/)) {
     return res.status(404).send({ error: err.message })
   }
 
-  res.status(500).send({ error: err.message })
+  if (err.message.match(/The password do not match/)){
+    return res.status(400).send({ error: err.message })
+  }
+
+  return res.status(500).send({ error: err.message })
 })
 
 function handleFatalError (err) {
@@ -54,6 +58,7 @@ function handleFatalError (err) {
   console.error(err.stack)
   process.exit(1)
 }
+
 
 if (!module.parent) {
   process.on('uncaughtException', handleFatalError)

@@ -6,7 +6,9 @@ export const users = [{
     name: 'Luis Manuel',
     lastname: 'Castillo Zamorano',
     birthday: '19/10/1993',
-    typeUser: 'free',
+    permissions: {
+      free: true
+    },
     state: 0,
     createdAt: new Date()
 },{
@@ -17,7 +19,9 @@ export const users = [{
     name: 'Ana Mireya',
     lastname: 'Jimenez Perez',
     birthday: '27/01/1997',
-    typeUser: 'free',
+    permissions: {
+      free: true
+    },
     state: 0,
     createdAt: new Date()
 },{
@@ -28,7 +32,9 @@ export const users = [{
     name: 'Dolores Imelda',
     lastname: 'Zamorano Lugo',
     birthday: '01/04/1966',
-    typeUser: 'premium',
+    permissions: {
+      free: true
+    },
     state: 0,
     createdAt: new Date()
 }]

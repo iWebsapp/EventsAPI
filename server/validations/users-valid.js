@@ -1,12 +1,12 @@
-import Debug from 'debug'
-import { apiName } from '../config'
-import { user } from '../models/user'
+'use strict'
 
-const debug = new Debug(apiName + ':users-validate')
-const users = user
+const Debug = require("debug")
+const config = require("../config")
+
+const debug = new Debug(`${config.settings.name}:users:valid`)
 
 //THIS FUNCTION IS THE ONE IN CHARGE THE HAVE LOGIN
-export const loginValidate = (req, res, next) => {
+export const loginUserValid = (req, res, next) => {
 
     const validater = []
     if (!req.body.email) { const v = { fields: 'email', message: 'The email is required' }
@@ -39,7 +39,7 @@ export const loginValidate = (req, res, next) => {
 }
 
 //THIS FUNCTION IS THE ONE IN CHARGE THE VAILDATE NEW USER
-export const addUserValidate = (req, res, next) => {
+export const addUserValid = (req, res, next) => {
 
     const validater = []
     if (req.files.avatar) {
@@ -67,28 +67,6 @@ export const addUserValidate = (req, res, next) => {
       }
     }
 
-    // if (!req.body.name) { const v = { fields: 'name', message: 'The name is required' }
-    //   validater.push(v)
-    // }
-    //
-    // if (!req.body.lastname) { const v = { fields: 'lastname', message: 'The lastname is required' }
-    //   validater.push(v)
-    // }
-
-    if (!req.body.typeUser) { const v = { fields: 'typeUser', message: 'The typeUser is required' }
-      validater.push(v)
-    } else {
-      if (req.body.typeUser != 'free') {
-        if (req.body.typeUser != 'admin') {
-            if (req.body.typeUser != 'root') {
-                if (req.body.typeUser != 'premium') { const v = { fields: 'typeUser', message: 'The typeUser is: (free, premium, admin or root)' }
-                  validater.push(v)
-                }
-            }
-        }
-      }
-    }
-
     if(validater.length == 0){
       next()
     } else {
@@ -98,7 +76,7 @@ export const addUserValidate = (req, res, next) => {
 }
 
 //THIS FUNCTION IS THE ONE IN CHARGE THE VALIDATE ID IS NUMERIC OR REQUIRED
-export const idValidate = (req, res, next) => {
+export const idValid = (req, res, next) => {
 
     const validater = []
     if (!req.params.id) { const v = { fields: 'id', message: 'The id is required' }
@@ -115,26 +93,6 @@ export const idValidate = (req, res, next) => {
     } else {
       debug(validater)
       return res.status(400).json(validater)
-    }
-
-}
-
-//THIS FUNCTION IS THE ONE IN CHARGE THE COMPROBATE IS EMAIL EXIST
-export const isExistEmail = (req, res, next) => {
-
-    const isExist = []
-    for(var i = 0; i < users.length; i++){
-      if (users[i].email == req.body.email) {
-        isExist.push(users[i])
-      }
-    }
-
-    if(isExist.length == 0){
-      next()
-    } else {
-      res.status(201).json({
-        message: 'The email already exists'
-      })
     }
 
 }
