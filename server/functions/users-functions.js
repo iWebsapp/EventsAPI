@@ -9,6 +9,7 @@ const auth = require('express-jwt')
 const guard = require('express-jwt-permissions')()
 const debug = new Debug(`${config.settings.name}:functions:users`)
 const chalk = require('chalk')
+const async = require('async')
 const fs = require('fs')
 
 // function find user by email
@@ -46,24 +47,91 @@ function validToken (user) {
   return jwt.sign({ user }, config.settings.secret, { expiresIn: config.settings.exp })
 }
 
+// function send email with create user
+function sendEmail (
+  parentCallback,
+  fromEmail,
+  toEmails,
+  subject,
+  textContent,
+  htmlContent
+) {
+  const errorEmails = []
+  const successfulEmails = []
+  const sg = require('sendgrid')('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')
+  async.parallel([
+    function (callback) {
+      // Add to emails
+      for (let i = 0; i < toEmails.length; i += 1) {
+        // Add from emails
+        const senderEmail = new helper.Email(fromEmail)
+        // Add to email
+        const toEmail = new helper.Email(toEmails[i])
+        // HTML Content
+        const content = new helper.Content('text/html', htmlContent)
+        const mail = new helper.Mail(senderEmail, subject, toEmail, content)
+        var request = sg.emptyRequest({
+          method: 'POST',
+          path: '/v3/mail/send',
+          body: mail.toJSON()
+        })
+        sg.API(request, function (error, response) {
+          // console.log('SendGrid');
+          if (error) {
+            console.log('Error response received')
+          }
+          // console.log(response.statusCode);
+          // console.log(response.body);
+          // console.log(response.headers);
+        })
+      }
+      callback(null, true)
+    }
+  ], function (err, results) {
+    console.log('Done')
+  })
+  parentCallback(null, {
+    successfulEmails: successfulEmails,
+    errorEmails: errorEmails
+  })
+}
+
 // function create new user
 export const createUserFunction = (req, res, next) => {
   const { email, password } = req.body
   const user = findUserByEmail(email)
-  const allUsers = usersModel["users"]
+  const allUsers = usersModel['users']
   if (user.length == 0) {
     user.idUser = +new Date()
     user.email = email
     user.password = password
     user.createdAt = new Date()
-    user.state = 0
-    user.avatar = "default.png"
+    user.state = -1
+    user.avatar = 'default.png'
     user.permissions = {
       free: true
     }
-    req.message = 'Create success'
-    allUsers.push(user)
-    next()
+
+    async.parallel([
+      function (callback) {
+        sendEmail(
+          callback,
+          'support@gloomitty.com',
+          [user.email],
+          'Bienvenido a ' + config.settings.name,
+          'Bienvenido a ' + config.settings.name,
+          '<p style="font-size: 32px;">Bienvenido</p>'
+        )
+      }
+    ], function (err, results) {
+      if (!err) {
+        req.message = 'Create success'
+        allUsers.push(user)
+        next()
+      } else {
+        res.status(202).json({ message: 'An error has occurred, the email has not been sent' })
+      }
+    })
   } else {
     res.status(202).json({ message: 'This user already exist' })
   }
@@ -76,16 +144,20 @@ export const loginUserFunction = (req, res, next) => {
   const user = findUserByEmail(email)
 
   if (user.length > 0) {
-    const valid = findUserByPassword(password)
-    if (!valid) {
-      debug('the passwords do not match')
-      res.status(400).json({ message: 'The password do not match' })
+    if (user[0].state === 0 || user[0].state === 1) {
+      const valid = findUserByPassword(password)
+      if (!valid) {
+        debug('the passwords do not match')
+        res.status(400).json({ message: 'The password do not match' })
+      } else {
+        const token = createToken(user[0])
+        req.message = 'Login success'
+        req.token = token
+        req.idUser = user.idUser
+        next()
+      }
     } else {
-      const token = createToken(user[0])
-      req.message = 'Login success'
-      req.token = token
-      req.idUser = user.idUser
-      next()
+      res.status(500).json({ message: 'This user not has been activated' })
     }
   } else {
     debug(`User with email ${email} not found`)
@@ -93,15 +165,13 @@ export const loginUserFunction = (req, res, next) => {
   }
 }
 
-
-
 export const uploadAvatarUserFunction = (req, res, next) => {
-  if(req.files.avatar === undefined){
-    user.avatar = "default.png"
+  if (req.files.avatar === undefined) {
+    user.avatar = 'default.png'
   } else {
     const imgName = user.idUser
-    const extensionImage = req.files.avatar.name.split(".").pop()
-    fs.rename(req.files.avatar.path, 'server/images/'+ imgName.idUser +'.'+extensionImage)
+    const extensionImage = req.files.avatar.name.split('.').pop()
+    fs.rename(req.files.avatar.path, 'server/images/' + imgName.idUser + '.' + extensionImage)
     user.avatar = imgName.idUser + '.' + extensionImage
   }
 }

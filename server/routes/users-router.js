@@ -39,7 +39,7 @@ app.post('/create', loginUserValid, createUserFunction, (req, res, next) => {
     } else {
       res.status(500).json({ message: 'An error has occurred' })
     }
-  } catch(e){
+  } catch (e) {
     return handleFatalError(e)
   }
 })
