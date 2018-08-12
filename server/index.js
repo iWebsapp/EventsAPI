@@ -1,19 +1,19 @@
 'use strict'
 
-const express = require("express")
-const chalk = require("chalk")
-const http = require("http")
-const Debug = require("debug")
-const bodyParser = require("body-parser")
-const config = require("./config")
-const formData = require("express-form-data")
+const express = require('express')
+const chalk = require('chalk')
+const http = require('http')
+const Debug = require('debug')
+const bodyParser = require('body-parser')
+const config = require('./config')
+const formData = require('express-form-data')
 
-//MODULE CHAT
+// MODULE CHAT
 const app = express()
 import { users } from './routes'
-//CREATE SERVER FROM EXPRESS
+// CREATE SERVER FROM EXPRESS
 const server = http.Server(app)
-//PORT API
+// PORT API
 const PORT = config.settings.port
 const debug = new Debug(`${config.settings.name}:lobby`)
 
@@ -23,14 +23,14 @@ const options = {
   keepExtenions: true,
   autoClean: true
 }
-//uploadDir: 'imgs',
-app.use( bodyParser.json() )
-app.use( bodyParser.urlencoded({ extended: true }))
-app.use( formData.parse(options) )
-app.use( formData.format() )
+// uploadDir: 'imgs',
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(formData.parse(options))
+app.use(formData.format())
 
 if (process.env.NODE_ENV === 'development') {
-  app.use( (req, res, next) => {
+  app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Request-With, Content-Type, Accept')
     res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PATCH, DELETE, OPTIONS')
@@ -38,7 +38,7 @@ if (process.env.NODE_ENV === 'development') {
   })
 }
 
-//ALL ERRORS
+// ALL ERRORS
 app.use((err, req, res, next) => {
   debug(`Error: ${err.message}`)
 
@@ -46,7 +46,7 @@ app.use((err, req, res, next) => {
     return res.status(404).send({ error: err.message })
   }
 
-  if (err.message.match(/The password do not match/)){
+  if (err.message.match(/The password do not match/)) {
     return res.status(400).send({ error: err.message })
   }
 
@@ -59,7 +59,6 @@ function handleFatalError (err) {
   process.exit(1)
 }
 
-
 if (!module.parent) {
   process.on('uncaughtException', handleFatalError)
   process.on('unhandledRejection', handleFatalError)
@@ -69,5 +68,5 @@ if (!module.parent) {
   })
 }
 
-//ALL MODULS FROM USERS
+// ALL MODULS FROM USERS
 app.use('/api/users', users)

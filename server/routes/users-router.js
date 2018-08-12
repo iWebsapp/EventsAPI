@@ -8,33 +8,40 @@ const { findAllUsersFunction, loginUserFunction, createUserFunction } = require(
 const { loginUserValid } = require('../validations')
 const app = express.Router()
 const debug = new Debug(`${config.settings.name}:router:users`)
+const usersModel = require('../models/users-model')
 
-//route login
+// route login
 app.post('/login', loginUserValid, loginUserFunction, (req, res, next) => {
-
-    try {
-        const { message, token, idUser } = req
-        if (message == 'Login success'){
-            res.status(200).json({
-                message,
-                token,
-                idUser
-            })
-        }
-    } catch (e) {
-        return handleFatalError(e)
+  try {
+    const { message, token, idUser } = req
+    if (message == 'Login success') {
+      res.status(200).json({
+        message,
+        token,
+        idUser
+      })
+    } else {
+      res.status(500).json({ message: 'An error has occurred' })
     }
-
+  } catch (e) {
+    return handleFatalError(e)
+  }
 })
 
-//route create user
-app.post('/login', createUserFunction, (req, res, next) => {
-
-    debug('this is a cerate user')
-    res.status(200).json({
-      message: 'create success'
-    })
-
+// route create user
+app.post('/create', loginUserValid, createUserFunction, (req, res, next) => {
+  try {
+    const { message } = req
+    if (message == 'Create success') {
+      res.status(200).json({
+        message
+      })
+    } else {
+      res.status(500).json({ message: 'An error has occurred' })
+    }
+  } catch(e){
+    return handleFatalError(e)
+  }
 })
 
 function handleFatalError (err) {
