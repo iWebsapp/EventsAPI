@@ -188,6 +188,30 @@ export const passwordChangeValid = (req, res, next) => {
 }
 
 
+// THIS FUNCTION IS THE ONE IN CHARGE THE VALIDATE ID IS NUMERIC OR REQUIRED
+export const birthdayValid = (req, res, next) => {
+  const validater = []
+
+  if (!req.body.birthday) {
+    const v = { fields: 'birthday', message: 'The id is required' }
+    validater.push(v)
+  } else {
+    if (!(/^\d{2}\/\d{2}\/\d{4}$/i.test(req.body.birthday))) {
+      const v = { fields: 'birthday', message: 'This is not a valid birthday (dd/mm/yyyy)' }
+      validater.push(v)
+    }
+  }
+
+  if (validater.length === 0) {
+    next()
+  } else {
+    debug(validater)
+    return res.status(400).json(validater)
+  }
+}
+
+
+
 function verifyToken (token) {
   return jwt.verify(token, config.settings.secret, (err, auth) => {
     if(err){

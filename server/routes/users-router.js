@@ -8,7 +8,7 @@ const { findAllUsersFunction, loginUserFunction, createUserFunction,
         activateUserFunction, verifyTokenFunction, changeBirthdayUserFunction,
         changePasswordUserFunction, changeEmailUserFunction, verifyHeadersTokenFunction
       } = require('../functions')
-const { loginUserValid, emailValid, passwordChangeValid, passwordValid } = require('../validations')
+const { loginUserValid, emailValid, passwordChangeValid, passwordValid, birthdayValid } = require('../validations')
 const app = express.Router()
 const debug = new Debug(`${config.settings.name}:router:users`)
 const usersModel = require('../models/users-model')
@@ -104,7 +104,7 @@ app.post('/change/password', verifyHeadersTokenFunction, passwordValid, password
 
 
 // route change email user
-app.post('/change/birthday', verifyHeadersTokenFunction, changeBirthdayUserFunction, (req, res, next) => {
+app.post('/change/birthday', verifyHeadersTokenFunction, birthdayValid, changeBirthdayUserFunction, (req, res, next) => {
   try{
       const { message } = req
       if (message == 'The birthday has been changed with this user') {

@@ -249,7 +249,7 @@ export const changePasswordUserFunction = (req,res, next) => {
     for (var i = 0; i < usersModel["users"].length; i++){
         if (usersModel["users"][i].idUser == idU.idUser){
             const user = usersModel["users"][i]
-            user.password = data.password
+            user.password = data.newpass
             usersModel["users"].splice(i, 1, user)
         }
     }
