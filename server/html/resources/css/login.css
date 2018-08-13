@@ -1,0 +1,109 @@
+*{
+  margin: 0px;
+  padding: 0px;
+}
+#box{
+    height: 200px;
+    width: 1000px;
+    background-color:#2D2D2D;
+    border-radius: 5px;
+    position: absolute;
+    top:50%;
+    left: 50%;
+    box-shadow: 0px 0px 15px #fff;
+    transform: translate(-50%,-50%);
+}
+#login_user,
+#create_user {
+  cursor: pointer;
+}
+#main{
+    height: 400px;
+    width: 450px;
+    background-color:white;
+    border-radius: 5px;
+    position: absolute;
+    top:50%;
+    left: 70%;
+    box-shadow: 0px 0px 15px #fff;
+    transform: translate(-50%,-50%);
+    z-index: 99;
+}
+#loginform,#signupform{
+    position: absolute;
+    top:50%;
+    left: 70%;
+    transform: translate(-50%,-50%);
+    z-index: 999;
+}
+#signupform{
+    top:45%;
+    left: 75%;
+    visibility: hidden;
+}
+#loginform h1,#signupform h1{
+    font-size: 25px;
+    color:blue;
+}
+#loginform input,#signupform input{
+    height: 40px;
+    width: 300px;
+    border: 0px;
+    outline: none;
+    border-bottom: 1px solid black;
+    margin: 5px;
+}
+#loginform button,#signupform button{
+    height: 35px;
+    width: 145px;
+    background-color:blue;
+    font-size: 16px;
+    color:white;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    margin-top: 30px;
+    margin-left: 175px;
+}
+#login_btn,#signup_btn{
+    height: 35px;
+    width: 120px;
+    background-color:transparent;
+    color:white;
+    border:1px solid white;
+    border-radius: 5px;
+    outline: none;
+    position: absolute;
+    left: 75%;
+    top:65%;
+    transform: translate(-50%,-50%);
+    transition: all .5s;
+}
+#signup_btn{
+    left: 25%;
+}
+#login_btn:hover,#signup_btn:hover{
+    background-color:white;
+    color:#2d2d2d;
+    cursor: pointer;
+}
+#login_msg,#signup_msg{
+    font-size: 20px;
+    color:white;
+    position: absolute;
+    top:35%;
+    left: 75%;
+    transform: translate(-50%,-50%);
+    z-index: 1;
+}
+#signup_msg{
+    left: 25%;
+}
+#carouselExampleSlidesOnly{
+  position: fixed;
+  top: 0px;
+  left: 0;
+  right: 0px;
+  bottom: 0px;
+  z-index: 0;
+}

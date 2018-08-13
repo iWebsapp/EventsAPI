@@ -17,8 +17,6 @@ const server = http.Server(app)
 const PORT = config.settings.port
 const debug = new Debug(`${config.settings.name}:lobby`)
 
-app.use(express.static('client'))
-
 const options = {
   keepExtenions: true,
   autoClean: true
@@ -68,5 +66,36 @@ if (!module.parent) {
   })
 }
 
+//ROUTES
 // ALL MODULS FROM USERS
 app.use('/api/users', users)
+
+//STATIC HTML
+//IMAGES
+// LOGIN DOCS
+app.get('/', function(req, res){
+  res.sendFile(__dirname + '/html/docs/login.html')
+})
+
+// IMAGENES ROUTES
+app.get('/pictures/:name', function(req, res){
+  const name = req.params.name
+  res.sendFile(__dirname + '/images/' + name)
+})
+
+// RESOURCES ROUTES
+app.get('/resources/:type/:name', function(req, res){
+  const type = req.params.type
+  const name = req.params.name
+  res.sendFile(__dirname + '/html/resources/' + type + "/" + name)
+})
+
+//ACTIVATE USER
+app.get('/activate/user', function(req, res){
+  res.sendFile(__dirname + '/html/docs/email.html')
+})
+
+// MAIN DOCS
+app.get('/docs/v1/', function(req, res){
+  res.sendFile(__dirname + '/html/docs/inicio.html')
+})
