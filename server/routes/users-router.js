@@ -4,11 +4,15 @@ const express = require('express')
 const config = require('../config')
 const async = require('async')
 const Debug = require('debug')
-const { findAllUsersFunction, loginUserFunction, createUserFunction, activateUserFunction, verifyTokenFunction } = require('../functions')
-const { loginUserValid, idValid } = require('../validations')
+const { findAllUsersFunction, loginUserFunction, createUserFunction,
+        activateUserFunction, verifyTokenFunction, changeBirthdayUserFunction,
+        changePasswordUserFunction, changeEmailUserFunction, verifyHeadersTokenFunction
+      } = require('../functions')
+const { loginUserValid, emailValid, passwordChangeValid, passwordValid } = require('../validations')
 const app = express.Router()
 const debug = new Debug(`${config.settings.name}:router:users`)
 const usersModel = require('../models/users-model')
+const guard = require('express-jwt-permissions')()
 
 // route login
 app.post('/login', loginUserValid, loginUserFunction, (req, res, next) => {
@@ -24,7 +28,7 @@ app.post('/login', loginUserValid, loginUserFunction, (req, res, next) => {
       res.status(500).json({ message: 'An error has occurred' })
     }
   } catch (e) {
-    return handleError(e)
+    return handleFatalError(e)
   }
 })
 
@@ -40,7 +44,7 @@ app.post('/create', loginUserValid, createUserFunction, (req, res, next) => {
       res.status(500).json({ message: 'An error has occurred' })
     }
   } catch (e) {
-    return handleError(e)
+    return handleFatalError(e)
   }
 })
 
@@ -57,13 +61,72 @@ app.post('/activate/:id', activateUserFunction, (req, res, next) => {
           res.status(500).json({ message: 'An error has occurred' })
       }
   } catch(e){
-      return handleError(e)
+      return handleFatalError(e)
   }
 })
 
-function handleError (err) {
+
+
+// route change email user
+app.post('/change/email', verifyHeadersTokenFunction, emailValid, changeEmailUserFunction, (req, res, next) => {
+  try{
+      const { message } = req
+      if (message == 'The email has been changed with this user') {
+          res.status(200).json({
+            message
+          })
+      } else {
+          return handleFatalError(e)
+          res.status(500).json({ message: 'An error has occurred' })
+      }
+  } catch(e){
+      return handleFatalError(e)
+  }
+})
+
+
+
+// route change password user
+app.post('/change/password', verifyHeadersTokenFunction, passwordValid, passwordChangeValid, changePasswordUserFunction, (req, res, next) => {
+  try{
+      const { message } = req
+      if (message == 'The password has been changed with this user') {
+          res.status(200).json({
+            message
+          })
+      } else {
+          res.status(500).json({ message: 'An error has occurred' })
+      }
+  } catch(e){
+      return handleFatalError(e)
+  }
+})
+
+
+// route change email user
+app.post('/change/birthday', verifyHeadersTokenFunction, changeBirthdayUserFunction, (req, res, next) => {
+  try{
+      const { message } = req
+      if (message == 'The birthday has been changed with this user') {
+          res.status(200).json({
+            message
+          })
+      } else {
+          res.status(500).json({ message: 'An error has occurred' })
+      }
+  } catch(e){
+      return handleFatalError(e)
+  }
+})
+
+function handleFatalError (res, err) {
   console.error(`${chalk.red('[Error]')} ${err.message}`)
   console.error(err.stack)
+  return res.status(500).json({
+    message: 'An error has occurred',
+    error: err.message,
+    stack: err.stack
+  })
 }
 
 export default app

@@ -5,7 +5,6 @@ const config = require('../config')
 const usersModel = require('../models/users-model')
 const jwt = require('jsonwebtoken')
 const helper = require('sendgrid').mail
-const auth = require('express-jwt')
 const guard = require('express-jwt-permissions')()
 const debug = new Debug(`${config.settings.name}:functions:users`)
 const chalk = require('chalk')
@@ -212,14 +211,83 @@ export const activateUserFunction = (req,res, next) => {
 }
 
 
+
+export const changeEmailUserFunction = (req,res, next) => {
+  const token = req.token
+  const data = req.body
+  const user = findUserByEmail(data["email"])
+  debug(user)
+  if (user.length > 0) {
+    res.status(400).json({ message: 'This email already exists' })
+  } else {
+    const verify = verifyToken(token)
+    if (verify == "Correct verification"){
+      const idU = meetInfoToken(token)
+      for (var i = 0; i < usersModel["users"].length; i++){
+          if (usersModel["users"][i].idUser == idU.idUser){
+              const user = usersModel["users"][i]
+              user.email = data.email
+              usersModel["users"].splice(i, 1, user)
+          }
+      }
+      req.message = "The email has been changed with this user"
+      next()
+    } else {
+      res.status(401).json({ message: 'This token is invalid' })
+    }
+  }
+}
+
+
+
+export const changePasswordUserFunction = (req,res, next) => {
+  const token = req.token
+  const data = req.body
+  const verify = verifyToken(token)
+  if (verify == "Correct verification"){
+    const idU = meetInfoToken(token)
+    for (var i = 0; i < usersModel["users"].length; i++){
+        if (usersModel["users"][i].idUser == idU.idUser){
+            const user = usersModel["users"][i]
+            user.password = data.password
+            usersModel["users"].splice(i, 1, user)
+        }
+    }
+    req.message = "The password has been changed with this user"
+    next()
+  } else {
+    res.status(401).json({ message: 'This token is invalid' })
+  }
+}
+
+export const changeBirthdayUserFunction = (req,res, next) => {
+  const token = req.token
+  const data = req.body
+  const verify = verifyToken(token)
+  if (verify == "Correct verification"){
+    const idU = meetInfoToken(token)
+    for (var i = 0; i < usersModel["users"].length; i++){
+        if (usersModel["users"][i].idUser == idU.idUser){
+            const user = usersModel["users"][i]
+            user.birthday = data.birthday
+            usersModel["users"].splice(i, 1, user)
+        }
+    }
+    req.message = "The birthday has been changed with this user"
+    next()
+  } else {
+    res.status(401).json({ message: 'This token is invalid' })
+  }
+}
+
+
+
 // FORMAT OF TOKEN
-// Authorization: Bearer <access_token>
+// Authorization <access_token>
 export const verifyHeadersTokenFunction = (req,res, next) => {
    const bearerHeader = req.headers['authorization']
    if(typeof bearerHeader !== 'undefined') {
-       const bearer = bearerHeader.split(' ')
-       const bearerToken = bearer[1]
-       req.token = bearerToken
+       req.token = bearerHeader
        next()
    } else {
        res.status(403).json({ message: 'This not is a token' })
