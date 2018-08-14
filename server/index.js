@@ -21,7 +21,9 @@ const options = {
   keepExtenions: true,
   autoClean: true
 }
+
 // uploadDir: 'imgs',
+app.set('view engine', 'ejs')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(formData.parse(options))
@@ -74,7 +76,7 @@ app.use('/api/users', users)
 //IMAGES
 // LOGIN DOCS
 app.get('/', function(req, res){
-  res.sendFile(__dirname + '/html/docs/login.html')
+  res.render(__dirname + '/html/docs/login.ejs')
 })
 
 // IMAGENES ROUTES
