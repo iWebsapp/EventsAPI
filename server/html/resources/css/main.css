@@ -5,6 +5,12 @@
 body {
   font-size: .875rem;
 }
+.submenu{
+  display: block;
+}
+/* .submenu.hidden{
+  display: none;
+} */
 #singout{
   cursor: pointer;
 }
