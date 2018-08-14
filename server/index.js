@@ -7,7 +7,8 @@ const Debug = require('debug')
 const bodyParser = require('body-parser')
 const config = require('./config')
 const formData = require('express-form-data')
-
+const docs = require('./docs-router')
+const src = require('./src-router')
 // MODULE CHAT
 const app = express()
 import { users } from './routes'
@@ -68,65 +69,13 @@ if (!module.parent) {
   })
 }
 
-//ROUTES
-// ALL MODULS FROM USERS
-app.use('/api/users', users)
-
-//STATIC HTML
-//IMAGES
-// LOGIN DOCS
-app.get('/', function(req, res){
+app.get('/docs', function(req, res){
   res.render(__dirname + '/html/docs/login.ejs')
 })
 
-// IMAGENES ROUTES
-app.get('/pictures/:name', function(req, res){
-  const name = req.params.name
-  res.sendFile(__dirname + '/images/' + name)
-})
-
-// RESOURCES ROUTES
-app.get('/resources/:type/:name', function(req, res){
-  const type = req.params.type
-  const name = req.params.name
-  res.sendFile(__dirname + '/html/resources/' + type + "/" + name)
-})
-
-//ACTIVATE USER
-app.get('/activate/user', function(req, res){
-  res.sendFile(__dirname + '/html/docs/email.html')
-})
-
-// MAIN DOCS
-app.get('/docs/v1/', function(req, res){
-  res.sendFile(__dirname + '/html/docs/inicio.html')
-})
-
-// SETTINGS DOCS
-app.get('/docs/v1/settings', function(req, res){
-  res.sendFile(__dirname + '/html/docs/config.html')
-})
-
-
-// ABOUT DOCS
-app.get('/docs/v1/about', function(req, res){
-  res.sendFile(__dirname + '/html/docs/about.html')
-})
-
-
-// REPORT PROBLEMS DOCS
-app.get('/docs/v1/report-problem', function(req, res){
-  res.sendFile(__dirname + '/html/docs/report-problem.html')
-})
-
-
-// REPORT PROBLEMS DOCS
-app.get('/docs/v1/help-service', function(req, res){
-  res.sendFile(__dirname + '/html/docs/help-service.html')
-})
-
-
-// PRIVACITY PROBLEMS DOCS
-app.get('/docs/v1/privacity', function(req, res){
-  res.sendFile(__dirname + '/html/docs/privacity.html')
-})
+//ALL ROUTES FROM SRC
+app.use('/src', src)
+//ALL ROUTES FROM DOCS
+app.use('/docs/v1', docs)
+// ALL ROUTES FROM USERS
+app.use('/api/v1/users', users)
