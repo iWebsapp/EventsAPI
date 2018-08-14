@@ -5,6 +5,13 @@
 body {
   font-size: .875rem;
 }
+#singout{
+  cursor: pointer;
+}
+.text-separator{
+  padding: 5px;
+  border-bottom: solid 1px #d2d2d2;
+}
 .feather {
   width: 16px;
   height: 16px;
@@ -39,6 +46,10 @@ body {
 .sidebar .nav-link {
   font-weight: 500;
   color: #333;
+}
+
+.nav-link .icon-right{
+  float: right;
 }
 .sidebar .nav-link .feather {
   margin-right: 4px;

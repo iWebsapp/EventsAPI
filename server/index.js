@@ -99,3 +99,32 @@ app.get('/activate/user', function(req, res){
 app.get('/docs/v1/', function(req, res){
   res.sendFile(__dirname + '/html/docs/inicio.html')
 })
+
+// SETTINGS DOCS
+app.get('/docs/v1/settings', function(req, res){
+  res.sendFile(__dirname + '/html/docs/config.html')
+})
+
+
+// ABOUT DOCS
+app.get('/docs/v1/about', function(req, res){
+  res.sendFile(__dirname + '/html/docs/about.html')
+})
+
+
+// REPORT PROBLEMS DOCS
+app.get('/docs/v1/report-problem', function(req, res){
+  res.sendFile(__dirname + '/html/docs/report-problem.html')
+})
+
+
+// REPORT PROBLEMS DOCS
+app.get('/docs/v1/help-service', function(req, res){
+  res.sendFile(__dirname + '/html/docs/help-service.html')
+})
+
+
+// PRIVACITY PROBLEMS DOCS
+app.get('/docs/v1/privacity', function(req, res){
+  res.sendFile(__dirname + '/html/docs/privacity.html')
+})
