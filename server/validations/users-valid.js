@@ -5,6 +5,7 @@ const config = require('../config')
 const usersModel = require('../models/users-model')
 const jwt = require('jsonwebtoken')
 const debug = new Debug(`${config.settings.name}:users:valid`)
+const { createToken, verifyToken, meetInfoToken, verifyHeadersTokenFunction, sendEmail, findUserById } = require('./')
 
 // THIS FUNCTION IS THE ONE IN CHARGE THE HAVE LOGIN
 export const loginUserValid = (req, res, next) => {
@@ -197,34 +198,4 @@ export const birthdayValid = (req, res, next) => {
     debug(validater)
     return res.status(400).json(validater)
   }
-}
-
-function verifyToken (token) {
-  return jwt.verify(token, config.settings.secret, (err, auth) => {
-    if (err) {
-      return 'This token is invalid'
-    } else {
-      return 'Correct verification'
-    }
-  })
-}
-
-function findUserById (token) {
-  const idU = meetInfoToken(token)
-  const actual = idU.idUser
-  let arrayUser = []
-  for (var i = 0; i < usersModel.users.length; i++) {
-    if (usersModel.users[i].idUser === actual) {
-      arrayUser.push(usersModel.users[i])
-    }
-  }
-  return arrayUser
-}
-
-function meetInfoToken (token) {
-  const tokenArray = token.split('.')
-  const tokenString = tokenArray[1].toString()
-  const tokenDesencryp = Buffer.from(tokenString, 'base64').toString()
-  const tokenObject = JSON.parse(tokenDesencryp)
-  return tokenObject.users
 }

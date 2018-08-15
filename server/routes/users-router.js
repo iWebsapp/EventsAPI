@@ -5,7 +5,8 @@ const chalk = require('chalk')
 const { loginUserFunction, createUserFunction,
   activateUserFunction, changeBirthdayUserFunction,
   changePasswordUserFunction, changeEmailUserFunction,
-  verifyHeadersTokenFunction, allUsersFunction
+  verifyHeadersTokenFunction, allUsersFunction,
+  handleError, handleFatalError
 } = require('../functions')
 const { loginUserValid, emailValid, passwordChangeValid, passwordValid, birthdayValid } = require('../validations')
 const app = express.Router()
@@ -132,25 +133,5 @@ app.get('/all', verifyHeadersTokenFunction, allUsersFunction, (req, res, next) =
     return handleFatalError(e)
   }
 })
-
-function handleError (res, err) {
-  console.error(`${chalk.red('[Error]')} ${err.message}`)
-  console.error(err.stack)
-  return res.status(500).json({
-    status: 500,
-    error: err.message
-  })
-}
-
-
-function handleFatalError (res, err) {
-  console.error(`${chalk.red('[Fatal Error]')} ${err.message}`)
-  console.error(err.stack)
-  return res.status(500).json({
-    status: 500,
-    error: err.message
-  })
-  process.exit(1)
-}
 
 export default app
