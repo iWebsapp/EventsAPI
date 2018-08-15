@@ -7,12 +7,11 @@ const { loginUserFunction, createUserFunction,
   changePasswordUserFunction, changeEmailUserFunction,
   verifyHeadersTokenFunction, allUsersFunction
 } = require('../functions')
-const { loginUserValid, emailValid, passwordChangeValid, passwordValid, birthdayValid } = require('../validations')
 const app = express.Router()
 // const guard = require('express-jwt-permissions')()
 
 // route login
-app.post('/login', loginUserValid, loginUserFunction, (req, res, next) => {
+app.post('/login', loginUserFunction, (req, res, next) => {
   try {
     const { message, token, idUser } = req
     if (message === 'Login success') {
@@ -31,7 +30,7 @@ app.post('/login', loginUserValid, loginUserFunction, (req, res, next) => {
 })
 
 // route create user
-app.post('/create', loginUserValid, createUserFunction, (req, res, next) => {
+app.post('/create', createUserFunction, (req, res, next) => {
   try {
     const { message } = req
     if (message === 'Create success') {
@@ -65,7 +64,7 @@ app.post('/activate/:id', activateUserFunction, (req, res, next) => {
 })
 
 // route change email user
-app.post('/change/email', verifyHeadersTokenFunction, emailValid, changeEmailUserFunction, (req, res, next) => {
+app.post('/change/email', verifyHeadersTokenFunction, changeEmailUserFunction, (req, res, next) => {
   try {
     const { message } = req
     if (message === 'The email has been changed with this user') {
@@ -82,7 +81,7 @@ app.post('/change/email', verifyHeadersTokenFunction, emailValid, changeEmailUse
 })
 
 // route change password user
-app.post('/change/password', verifyHeadersTokenFunction, passwordValid, passwordChangeValid, changePasswordUserFunction, (req, res, next) => {
+app.post('/change/password', verifyHeadersTokenFunction, changePasswordUserFunction, (req, res, next) => {
   try {
     const { message } = req
     if (message === 'The password has been changed with this user') {
@@ -99,7 +98,7 @@ app.post('/change/password', verifyHeadersTokenFunction, passwordValid, password
 })
 
 // route change email user
-app.post('/change/birthday', verifyHeadersTokenFunction, birthdayValid, changeBirthdayUserFunction, (req, res, next) => {
+app.post('/change/birthday', verifyHeadersTokenFunction, changeBirthdayUserFunction, (req, res, next) => {
   try {
     const { message } = req
     if (message === 'The birthday has been changed with this user') {
@@ -138,7 +137,8 @@ function handleError (res, err) {
   console.error(err.stack)
   return res.status(500).json({
     status: 500,
-    error: err.message
+    error: err.message,
+    stack: err.stack
   })
 }
 
@@ -148,7 +148,8 @@ function handleFatalError (res, err) {
   console.error(err.stack)
   return res.status(500).json({
     status: 500,
-    error: err.message
+    error: err.message,
+    stack: err.stack
   })
   process.exit(1)
 }

@@ -96,7 +96,6 @@ export const idValid = (req, res, next) => {
   }
 }
 
-
 // THIS FUNCTION IS THE ONE IN CHARGE THE VALIDATE ID IS NUMERIC OR REQUIRED
 export const emailValid = (req, res, next) => {
   const validater = []
@@ -117,8 +116,6 @@ export const emailValid = (req, res, next) => {
     return res.status(400).json(validater)
   }
 }
-
-
 
 // THIS FUNCTION IS THE ONE IN CHARGE THE VALIDATE ID IS NUMERIC OR REQUIRED
 export const passwordValid = (req, res, next) => {
@@ -141,9 +138,6 @@ export const passwordValid = (req, res, next) => {
   }
 }
 
-
-
-
 // THIS FUNCTION IS THE ONE IN CHARGE THE VALIDATE ID IS NUMERIC OR REQUIRED
 export const passwordChangeValid = (req, res, next) => {
   const validater = []
@@ -159,25 +153,21 @@ export const passwordChangeValid = (req, res, next) => {
       const v = { fields: 'newpass', message: 'The newpass must have more than 8 characters' }
       validater.push(v)
     } else {
-
-
-      if (verify == "Correct verification"){
-          const user = findUserById(token)
-          if (user.length == 1) {
-            const passDB = user[0].password
-            if(passDB !== password){
-              const v = { fields: 'password', message: 'This password is incorrect, try with another' }
-              validater.push(v)
-            }
+      if (verify === 'Correct verification') {
+        const user = findUserById(token)
+        if (user.length === 1) {
+          const passDB = user[0].password
+          if (passDB !== password) {
+            const v = { fields: 'password', message: 'This password is incorrect, try with another' }
+            validater.push(v)
           }
+        }
       } else {
-          const v = { fields: 'token', message: 'The token is invalid' }
-          validater.push(v)
+        const v = { fields: 'token', message: 'The token is invalid' }
+        validater.push(v)
       }
-
     }
   }
-
 
   if (validater.length === 0) {
     next()
@@ -186,7 +176,6 @@ export const passwordChangeValid = (req, res, next) => {
     return res.status(400).json(validater)
   }
 }
-
 
 // THIS FUNCTION IS THE ONE IN CHARGE THE VALIDATE ID IS NUMERIC OR REQUIRED
 export const birthdayValid = (req, res, next) => {
@@ -210,11 +199,9 @@ export const birthdayValid = (req, res, next) => {
   }
 }
 
-
-
 function verifyToken (token) {
   return jwt.verify(token, config.settings.secret, (err, auth) => {
-    if(err){
+    if (err) {
       return 'This token is invalid'
     } else {
       return 'Correct verification'
@@ -222,20 +209,20 @@ function verifyToken (token) {
   })
 }
 
-function findUserById(token){
+function findUserById (token) {
   const idU = meetInfoToken(token)
   const actual = idU.idUser
   let arrayUser = []
   for (var i = 0; i < usersModel.users.length; i++) {
-    if (usersModel.users[i].idUser == actual) {
+    if (usersModel.users[i].idUser === actual) {
       arrayUser.push(usersModel.users[i])
     }
   }
   return arrayUser
 }
 
-function meetInfoToken(token){
-  const tokenArray = token.split(".")
+function meetInfoToken (token) {
+  const tokenArray = token.split('.')
   const tokenString = tokenArray[1].toString()
   const tokenDesencryp = Buffer.from(tokenString, 'base64').toString()
   const tokenObject = JSON.parse(tokenDesencryp)

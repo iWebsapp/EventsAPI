@@ -11,7 +11,7 @@ const docs = require('./html')
 const src = require('./src-router')
 // MODULE CHAT
 const app = express()
-import { users } from './routes'
+const { users, problems } = require('./routes')
 // CREATE SERVER FROM EXPRESS
 const server = http.Server(app)
 // PORT API
@@ -39,27 +39,6 @@ if (process.env.NODE_ENV === 'development') {
   })
 }
 
-// ALL ERRORS
-app.use((err, req, res, next) => {
-  debug(`Error: ${err.message}`)
-
-  if (err.message.match(/User not found/)) {
-    return res.status(404).send({ error: err.message })
-  }
-
-  if (err.message.match(/The password do not match/)) {
-    return res.status(400).send({ error: err.message })
-  }
-
-  return res.status(500).send({ error: err.message })
-})
-
-function handleFatalError (err) {
-  console.error(`${chalk.red('[fatal error]')} ${err.message}`)
-  console.error(err.stack)
-  process.exit(1)
-}
-
 if (!module.parent) {
   process.on('uncaughtException', handleFatalError)
   process.on('unhandledRejection', handleFatalError)
@@ -69,13 +48,21 @@ if (!module.parent) {
   })
 }
 
-app.get('/', function(req, res){
+function handleFatalError (err) {
+  console.error(`${chalk.red('[fatal error]')} ${err.message}`)
+  console.error(err.stack)
+  process.exit(1)
+}
+
+app.get('/', function (req, res) {
   res.render(__dirname + '/html/docs/login.ejs')
 })
 
-//ALL ROUTES FROM SRC
+// ALL ROUTES FROM SRC
 app.use('/src', src)
-//ALL ROUTES FROM DOCS
+// ALL ROUTES FROM DOCS
 app.use('/docs/v1', docs)
-// ALL ROUTES FROM USERS
+
+// ALL ROUTES FROM API V1
 app.use('/api/v1/users', users)
+app.use('/api/v1/problems', problems)
