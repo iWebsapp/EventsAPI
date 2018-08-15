@@ -9,37 +9,37 @@ const docs = express.Router()
 
 // MAIN DOCS
 docs.get('/', function(req, res){
-  res.render(__dirname + '/html/docs/inicio.ejs')
+  res.render(__dirname + '/docs/inicio.ejs', { selected: req.url })
 })
 
 //ACTIVATE USER
 docs.get('/activate/user', function(req, res){
-  res.render(__dirname + '/html/docs/email.ejs')
+  res.render(__dirname + '/docs/email.ejs', { selected: req.url })
 })
 
 // SETTINGS DOCS
 docs.get('/settings', function(req, res){
-  res.render(__dirname + '/html/docs/config.ejs')
+  res.render(__dirname + '/docs/config.ejs', { selected: req.url })
 })
 
 // ABOUT DOCS
 docs.get('/about', function(req, res){
-  res.render(__dirname + '/html/docs/about.ejs')
+  res.render(__dirname + '/docs/about.ejs', { selected: req.url })
 })
 
 // REPORT PROBLEMS DOCS
 docs.get('/report-problem', function(req, res){
-  res.render(__dirname + '/html/docs/report-problem.ejs')
+  res.render(__dirname + '/docs/report-problem.ejs', { selected: req.url })
 })
 
 // REPORT PROBLEMS DOCS
 docs.get('/help-service', function(req, res){
-  res.render(__dirname + '/html/docs/help-service.ejs')
+  res.render(__dirname + '/docs/help-service.ejs', { selected: req.url })
 })
 
 // PRIVACITY PROBLEMS DOCS
 docs.get('/privacity', function(req, res){
-  res.render(__dirname + '/html/docs/privacity.ejs')
+  res.render(__dirname + '/docs/privacity.ejs', { selected: req.url })
 })
 
 module.exports = docs

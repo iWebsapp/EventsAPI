@@ -7,7 +7,7 @@ const Debug = require('debug')
 const bodyParser = require('body-parser')
 const config = require('./config')
 const formData = require('express-form-data')
-const docs = require('./docs-router')
+const docs = require('./html')
 const src = require('./src-router')
 // MODULE CHAT
 const app = express()
@@ -69,7 +69,7 @@ if (!module.parent) {
   })
 }
 
-app.get('/docs', function(req, res){
+app.get('/', function(req, res){
   res.render(__dirname + '/html/docs/login.ejs')
 })
 

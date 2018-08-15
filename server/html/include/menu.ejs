@@ -12,37 +12,61 @@
       <div class="submenu submenuProfile">
         <ul class="nav flex-column">
         <li class="nav-item">
+          <% if(selected === "/") { %>
           <a class="nav-link active" href="./">
+          <% } else { %>
+            <a class="nav-link" href="./">
+          <% } %>
             <span data-feather="log-in"></span>
             Login <span class="icon-right" data-feather="chevron-right"></span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./settings">
+          <% if(selected === "/settings") { %>
+          <a class="nav-link active" href="./settings">
+          <% } else { %>
+            <a class="nav-link" href="./settings">
+          <% } %>
             <span data-feather="settings"></span>
             Configuración <span class="icon-right" data-feather="chevron-right"></span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./about">
+          <% if(selected === "/about") { %>
+          <a class="nav-link active" href="./about">
+          <% } else { %>
+            <a class="nav-link" href="./about">
+          <% } %>
             <span data-feather="info"></span>
             Quìenes somos <span class="icon-right" data-feather="chevron-right"></span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./report-problem">
+          <% if(selected === "/report-problem") { %>
+          <a class="nav-link active" href="./report-problem">
+          <% } else { %>
+            <a class="nav-link" href="./report-problem">
+          <% } %>
             <span data-feather="life-buoy"></span>
             Reportar un problema <span class="icon-right" data-feather="chevron-right"></span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./help-service">
+          <% if(selected === "/help-service") { %>
+          <a class="nav-link active" href="./help-service">
+          <% } else { %>
+            <a class="nav-link" href="./help-service">
+          <% } %>
             <span data-feather="help-circle"></span>
             Servicio de ayuda <span class="icon-right" data-feather="chevron-right"></span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./privacity">
+          <% if(selected === "/privacity") { %>
+          <a class="nav-link active" href="./privacity">
+          <% } else { %>
+            <a class="nav-link" href="./privacity">
+          <% } %>
             <span data-feather="list"></span>
             Privacidad <span class="icon-right" data-feather="chevron-right"></span>
           </a>
@@ -58,94 +82,7 @@
         </a>
       </h6>
 
-      <div class="submenu submenuPlaces">
-        <ul class="nav flex-column">
-        <li class="nav-item">
-          <a class="nav-link active" href="./">
-            <span data-feather="log-in"></span>
-            Login <span class="icon-right" data-feather="chevron-right"></span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./settings">
-            <span data-feather="settings"></span>
-            Configuración <span class="icon-right" data-feather="chevron-right"></span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./about">
-            <span data-feather="info"></span>
-            Quìenes somos <span class="icon-right" data-feather="chevron-right"></span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./report-problem">
-            <span data-feather="life-buoy"></span>
-            Reportar un problema <span class="icon-right" data-feather="chevron-right"></span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./help-service">
-            <span data-feather="help-circle"></span>
-            Servicio de ayuda <span class="icon-right" data-feather="chevron-right"></span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./privacity">
-            <span data-feather="list"></span>
-            Privacidad <span class="icon-right" data-feather="chevron-right"></span>
-          </a>
-        </li>
-      </ul>
-      </div>
-
-      <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-separator titleCoupones">
-        <span>Cupones</span>
-        <a class="d-flex align-items-center text-muted" href="#">
-          <span data-feather="plus-circle"></span>
-        </a>
-      </h6>
-
-      <div class="submenu submenuCoupons">
-        <ul class="nav flex-column">
-        <li class="nav-item">
-          <a class="nav-link active" href="./">
-            <span data-feather="log-in"></span>
-            Login <span class="icon-right" data-feather="chevron-right"></span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./settings">
-            <span data-feather="settings"></span>
-            Configuración <span class="icon-right" data-feather="chevron-right"></span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./about">
-            <span data-feather="info"></span>
-            Quìenes somos <span class="icon-right" data-feather="chevron-right"></span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./report-problem">
-            <span data-feather="life-buoy"></span>
-            Reportar un problema <span class="icon-right" data-feather="chevron-right"></span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./help-service">
-            <span data-feather="help-circle"></span>
-            Servicio de ayuda <span class="icon-right" data-feather="chevron-right"></span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./privacity">
-            <span data-feather="list"></span>
-            Privacidad <span class="icon-right" data-feather="chevron-right"></span>
-          </a>
-        </li>
-      </ul>
-      </div>
+      <div class="submenu submenuPlaces"></div>
 
       <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-separator titleShopping">
         <span>Compras</span>
@@ -154,46 +91,7 @@
         </a>
       </h6>
 
-      <div class="submenu submenuShopping">
-        <ul class="nav flex-column">
-        <li class="nav-item">
-          <a class="nav-link active" href="./">
-            <span data-feather="log-in"></span>
-            Login <span class="icon-right" data-feather="chevron-right"></span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./settings">
-            <span data-feather="settings"></span>
-            Configuración <span class="icon-right" data-feather="chevron-right"></span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./about">
-            <span data-feather="info"></span>
-            Quìenes somos <span class="icon-right" data-feather="chevron-right"></span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./report-problem">
-            <span data-feather="life-buoy"></span>
-            Reportar un problema <span class="icon-right" data-feather="chevron-right"></span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./help-service">
-            <span data-feather="help-circle"></span>
-            Servicio de ayuda <span class="icon-right" data-feather="chevron-right"></span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./privacity">
-            <span data-feather="list"></span>
-            Privacidad <span class="icon-right" data-feather="chevron-right"></span>
-          </a>
-        </li>
-      </ul>
-      </div>
+      <div class="submenu submenuShopping"></div>
 
 
     </div>

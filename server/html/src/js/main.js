@@ -4,8 +4,8 @@ $(document).ready(function(){
       location.href = "../../"
     });
 
-    var contProfile = 0
-    $(".submenu").slideUp()
+    var contProfile = 1
+    //$(".submenu").slideUp()
 
     $(".titleProfile").click( function(e){
         e.preventDefault()

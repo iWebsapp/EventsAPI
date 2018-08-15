@@ -13,6 +13,8 @@ body {
   text-align: center;
   padding: 5px;
   font-size: 12px;
+  color: #fff;
+  margin-bottom: 15px;
 }
 #singout{
   cursor: pointer;
