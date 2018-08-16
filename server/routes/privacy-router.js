@@ -2,14 +2,14 @@
 
 const express = require('express')
 const chalk = require('chalk')
-const { createAboutsFunction, deleteAboutsFunction, allAboutsFunction,
+const { createPrivacyFunction, deletePrivacyFunction, allPrivacyFunction,
         verifyHeadersTokenFunction, handleError, handleFatalError  } = require('../functions')
 const { idValid, addAboutValid } = require('../validations')
 const app = express.Router()
 // const guard = require('express-jwt-permissions')()
 
 // route create user
-app.post('/create', verifyHeadersTokenFunction, addAboutValid, createAboutsFunction, (req, res, next) => {
+app.post('/create', verifyHeadersTokenFunction, addAboutValid, createPrivacyFunction, (req, res, next) => {
   try {
     const { message } = req
     if (message === 'Create about success') {
@@ -26,7 +26,7 @@ app.post('/create', verifyHeadersTokenFunction, addAboutValid, createAboutsFunct
 })
 
 // get all users
-app.get('/all', allAboutsFunction, (req, res, next) => {
+app.get('/all', allPrivacyFunction, (req, res, next) => {
   try {
     const { message, data } = req
     if (message === 'List of all abouts') {
@@ -44,7 +44,7 @@ app.get('/all', allAboutsFunction, (req, res, next) => {
 })
 
 // route activate user
-app.delete('/delete', verifyHeadersTokenFunction, deleteAboutsFunction, (req, res, next) => {
+app.delete('/delete', verifyHeadersTokenFunction, deletePrivacyFunction, (req, res, next) => {
   try {
     const { message } = req
     if (message === 'This about has been deleted with success') {

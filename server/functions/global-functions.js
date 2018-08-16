@@ -9,6 +9,28 @@ const debug = new Debug(`${config.settings.name}:functions:users`)
 const async = require('async')
 const chalk = require('chalk')
 
+
+// function find user by email
+export function findUserByEmail (email) {
+  let arrayUser = []
+  for (var i = 0; i < usersModel.users.length; i++) {
+    if (usersModel.users[i].email === email) {
+      arrayUser.push(usersModel.users[i])
+    }
+  }
+  return arrayUser
+}
+
+// function find user by passoword
+export function findUserByPassword (pass) {
+  for (var i = 0; i < usersModel.users.length; i++) {
+    if (usersModel.users[i].password === pass) {
+      return true
+    }
+  }
+  return false
+}
+
 export function findUserById (token) {
   const idU = meetInfoToken(token)
   const actual = idU.idUser
@@ -20,6 +42,7 @@ export function findUserById (token) {
   }
   return arrayUser
 }
+
 // function create token from user
 export function createToken (user) {
   const users = {
@@ -49,8 +72,6 @@ export function meetInfoToken (token) {
   return tokenObject.users
 }
 
-
-// FORMAT OF TOKEN
 // Authorization <access_token>
 export const verifyHeadersTokenFunction = (req, res, next) => {
   const bearerHeader = req.headers['authorization']

@@ -5,28 +5,7 @@ const config = require('../config')
 const usersModel = require('../models/users-model')
 const debug = new Debug(`${config.settings.name}:functions:users`)
 const async = require('async')
-const { createToken, verifyToken, meetInfoToken, verifyHeadersTokenFunction, sendEmail } = require('./')
-
-// function find user by email
-function findUserByEmail (email) {
-  let arrayUser = []
-  for (var i = 0; i < usersModel.users.length; i++) {
-    if (usersModel.users[i].email === email) {
-      arrayUser.push(usersModel.users[i])
-    }
-  }
-  return arrayUser
-}
-
-// function find user by passoword
-function findUserByPassword (pass) {
-  for (var i = 0; i < usersModel.users.length; i++) {
-    if (usersModel.users[i].password === pass) {
-      return true
-    }
-  }
-  return false
-}
+const { findUserByEmail, findUserByPassword, createToken, verifyToken, meetInfoToken, verifyHeadersTokenFunction, sendEmail } = require('./')
 
 
 // function create new user

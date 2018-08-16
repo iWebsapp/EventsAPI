@@ -66,3 +66,4 @@ app.use('/docs/v1', docs)
 // ALL ROUTES FROM API V1
 app.use('/api/v1/users', users)
 app.use('/api/v1/abouts', about)
+//app.use('/api/v1/privacy', privacy)
