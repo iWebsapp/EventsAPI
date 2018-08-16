@@ -2,17 +2,17 @@
 
 const express = require('express')
 const chalk = require('chalk')
-const { createPrivacyFunction, deletePrivacyFunction, allPrivacyFunction,
+const { createReportsFunction, deleteReportsFunction, allReportsFunction, getReportFunction,
         verifyHeadersTokenFunction, handleError, handleFatalError  } = require('../functions')
-const { addAboutValid } = require('../validations')
+const { idValid, addReportValid } = require('../validations')
 const app = express.Router()
 // const guard = require('express-jwt-permissions')()
 
 // route create user
-app.post('/create', verifyHeadersTokenFunction, addAboutValid, createPrivacyFunction, (req, res, next) => {
+app.post('/create', addReportValid, createReportsFunction, (req, res, next) => {
   try {
     const { message } = req
-    if (message === 'Create privacy success') {
+    if (message === 'Create report success') {
       res.status(200).json({
         status: 200,
         message
@@ -26,10 +26,28 @@ app.post('/create', verifyHeadersTokenFunction, addAboutValid, createPrivacyFunc
 })
 
 // get all users
-app.get('/all', allPrivacyFunction, (req, res, next) => {
+app.get('/all', allReportsFunction, (req, res, next) => {
   try {
     const { message, data } = req
-    if (message === 'List of all privacy') {
+    if (message === 'List of all reports') {
+      res.status(200).json({
+        status: 200,
+        message,
+        data
+      })
+    } else {
+      return handleError(e)
+    }
+  } catch (e) {
+    return handleFatalError(e)
+  }
+})
+
+// get all users
+app.get('/:id', idValid, getReportFunction, (req, res, next) => {
+  try {
+    const { message, data } = req
+    if (message === 'This is a report') {
       res.status(200).json({
         status: 200,
         message,
@@ -44,10 +62,10 @@ app.get('/all', allPrivacyFunction, (req, res, next) => {
 })
 
 // route activate user
-app.delete('/delete', verifyHeadersTokenFunction, deletePrivacyFunction, (req, res, next) => {
+app.delete('/delete/:id', verifyHeadersTokenFunction, idValid, deleteReportsFunction, (req, res, next) => {
   try {
     const { message } = req
-    if (message === 'This privacy has been deleted with success') {
+    if (message === 'This report has been deleted with success') {
       res.status(200).json({
         status: 200,
         message

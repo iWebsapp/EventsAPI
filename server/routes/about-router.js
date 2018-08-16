@@ -4,7 +4,7 @@ const express = require('express')
 const chalk = require('chalk')
 const { createAboutsFunction, deleteAboutsFunction, allAboutsFunction,
         verifyHeadersTokenFunction, handleError, handleFatalError  } = require('../functions')
-const { idValid, addAboutValid } = require('../validations')
+const { addAboutValid } = require('../validations')
 const app = express.Router()
 // const guard = require('express-jwt-permissions')()
 
