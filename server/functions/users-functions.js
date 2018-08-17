@@ -5,7 +5,7 @@ const config = require('../config')
 const usersModel = require('../models/users-model')
 const debug = new Debug(`${config.settings.name}:functions:users`)
 const async = require('async')
-const { findUserByEmail, findUserByPassword, createToken, verifyToken, meetInfoToken, verifyHeadersTokenFunction, sendEmail } = require('./')
+const { findUserByEmail, findUserByPassword, createToken, verifyToken, meetInfoToken, sendEmail } = require('./')
 
 
 // function create new user
