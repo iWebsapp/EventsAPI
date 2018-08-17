@@ -18,10 +18,10 @@ app.post('/create', verifyHeadersTokenFunction, addAboutValid, createPrivacyFunc
         message
       })
     } else {
-      return handleError(e)
+      return handleError(res)
     }
-  } catch (e) {
-    return handleFatalError(e)
+  } catch (err) {
+    return handleFatalError(res, err)
   }
 })
 
@@ -36,10 +36,10 @@ app.get('/all', allPrivacyFunction, (req, res, next) => {
         data
       })
     } else {
-      return handleError(e)
+      return handleError(res)
     }
-  } catch (e) {
-    return handleFatalError(e)
+  } catch (err) {
+    return handleFatalError(res, err)
   }
 })
 
@@ -53,10 +53,10 @@ app.delete('/delete', verifyHeadersTokenFunction, deletePrivacyFunction, (req, r
         message
       })
     } else {
-      return handleError(e)
+      return handleError(res)
     }
-  } catch (e) {
-    return handleFatalError(e)
+  } catch (err) {
+    return handleFatalError(res, err)
   }
 })
 

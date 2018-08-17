@@ -83,22 +83,19 @@ export const verifyHeadersTokenFunction = (req, res, next) => {
   }
 }
 
-export function handleError (res, err) {
-  console.error(`${chalk.red('[Error]')} ${err.message}`)
-  console.error(err.stack)
+export function handleError (res) {
   return res.status(500).json({
     status: 500,
-    error: err.message
+    error: 'An error has occurred'
   })
 }
 
 
 export function handleFatalError (res, err) {
-  console.error(`${chalk.red('[Fatal Error]')} ${err.message}`)
-  console.error(err.stack)
   return res.status(500).json({
     status: 500,
-    error: err.message
+    message: 'A fatal error has occurred',
+    error: err.message || 'Faltal error'
   })
   process.exit(1)
 }

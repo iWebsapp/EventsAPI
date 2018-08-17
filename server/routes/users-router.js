@@ -24,10 +24,10 @@ app.post('/login', loginUserValid, loginUserFunction, (req, res, next) => {
         idUser
       })
     } else {
-      return handleError(e)
+      return handleError(res)
     }
-  } catch (e) {
-    return handleFatalError(e)
+  } catch (err) {
+    return handleFatalError(res, err)
   }
 })
 
@@ -41,10 +41,10 @@ app.post('/create', loginUserValid, createUserFunction, (req, res, next) => {
         message
       })
     } else {
-      return handleError(e)
+      return handleError(res)
     }
-  } catch (e) {
-    return handleFatalError(e)
+  } catch (err) {
+    return handleFatalError(res, err)
   }
 })
 
@@ -58,10 +58,10 @@ app.post('/activate/:id', activateUserFunction, (req, res, next) => {
         message
       })
     } else {
-      return handleError(e)
+      return handleError(res)
     }
-  } catch (e) {
-    return handleFatalError(e)
+  } catch (err) {
+    return handleFatalError(res, err)
   }
 })
 
@@ -75,10 +75,10 @@ app.post('/change/email', verifyHeadersTokenFunction, emailValid, changeEmailUse
         message
       })
     } else {
-      return handleError(e)
+      return handleError(res)
     }
-  } catch (e) {
-    return handleFatalError(e)
+  } catch (err) {
+    return handleFatalError(res, err)
   }
 })
 
@@ -92,10 +92,10 @@ app.post('/change/password', verifyHeadersTokenFunction, passwordValid, password
         message
       })
     } else {
-      return handleError(e)
+      return handleError(res)
     }
-  } catch (e) {
-    return handleFatalError(e)
+  } catch (err) {
+    return handleFatalError(res, err)
   }
 })
 
@@ -109,10 +109,10 @@ app.post('/change/birthday', verifyHeadersTokenFunction, birthdayValid, changeBi
         message
       })
     } else {
-      return handleError(e)
+      return handleError(res)
     }
-  } catch (e) {
-    return handleFatalError(e)
+  } catch (err) {
+    return handleFatalError(res, err)
   }
 })
 
@@ -127,10 +127,10 @@ app.get('/all', verifyHeadersTokenFunction, allUsersFunction, (req, res, next) =
         data
       })
     } else {
-      return handleError(e)
+      return handleError(res)
     }
-  } catch (e) {
-    return handleFatalError(e)
+  } catch (err) {
+    return handleFatalError(res, err)
   }
 })
 

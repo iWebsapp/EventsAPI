@@ -58,7 +58,6 @@ export const loginUserFunction = (req, res, next) => {
     if (user[0].state === 0 || user[0].state === 1) {
       const valid = findUserByPassword(password)
       if (!valid) {
-        debug('the passwords do not match')
         res.status(400).json({ status: 400, message: 'The password do not match' })
       } else {
         const token = createToken(user[0])
@@ -71,7 +70,6 @@ export const loginUserFunction = (req, res, next) => {
       res.status(500).json({ status: 500, message: 'This user not has been activated' })
     }
   } else {
-    debug(`User with email ${email} not found`)
     res.status(404).json({ status: 404, message: 'User not found' })
   }
 }

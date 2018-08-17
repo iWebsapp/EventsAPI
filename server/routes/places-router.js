@@ -18,10 +18,10 @@ app.get('/all', verifyHeadersTokenFunction, allPlacesFunction, (req, res, next) 
         data
       })
     } else {
-      return handleError(e)
+      return handleError(res)
     }
-  } catch (e) {
-    return handleFatalError(e)
+  } catch (err) {
+    return handleFatalError(res, err)
   }
 })
 
@@ -37,10 +37,10 @@ app.get('/my/all', verifyHeadersTokenFunction, allMyPlacesFunction, (req, res, n
         data
       })
     } else {
-      return handleError(e)
+      return handleError(res)
     }
-  } catch (e) {
-    return handleFatalError(e)
+  } catch (err) {
+    return handleFatalError(res, err)
   }
 })
 

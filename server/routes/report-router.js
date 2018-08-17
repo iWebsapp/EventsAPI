@@ -18,10 +18,10 @@ app.post('/create', addReportValid, createReportsFunction, (req, res, next) => {
         message
       })
     } else {
-      return handleError(e)
+      return handleError(res)
     }
-  } catch (e) {
-    return handleFatalError(e)
+  } catch (err) {
+    return handleFatalError(res, err)
   }
 })
 
@@ -36,10 +36,10 @@ app.get('/all', allReportsFunction, (req, res, next) => {
         data
       })
     } else {
-      return handleError(e)
+      return handleError(res)
     }
-  } catch (e) {
-    return handleFatalError(e)
+  } catch (err) {
+    return handleFatalError(res, err)
   }
 })
 
@@ -54,10 +54,10 @@ app.get('/:id', idValid, getReportFunction, (req, res, next) => {
         data
       })
     } else {
-      return handleError(e)
+      return handleError(res)
     }
-  } catch (e) {
-    return handleFatalError(e)
+  } catch (err) {
+    return handleFatalError(res, err)
   }
 })
 
@@ -71,10 +71,10 @@ app.delete('/delete/:id', verifyHeadersTokenFunction, idValid, deleteReportsFunc
         message
       })
     } else {
-      return handleError(e)
+      return handleError(res)
     }
-  } catch (e) {
-    return handleFatalError(e)
+  } catch (err) {
+    return handleFatalError(res, err)
   }
 })
 
