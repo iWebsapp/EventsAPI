@@ -62,3 +62,24 @@ export const allItemsMenuPlacesFunction = (req, res, next) => {
      res.status(401).json({ status: 401, message: 'This token is invalid' })
   }
 }
+
+
+
+export const getInfoPlacesFunction = (req, res, next) => {
+  const token = req.token
+  const verify = verifyToken(token)
+  const idU = req.params.id
+  if (verify === 'Correct verification') {
+    let itemPlaces = []
+    for (var i = 0; i < infoModel["info"].length; i++) {
+       if (infoModel["info"][i].idPlaces == idU) {
+          itemPlaces.push(infoModel["info"][i])
+       }
+    }
+    req.message = 'List the places information'
+    req.data = itemPlaces
+    next()
+  } else {
+     res.status(401).json({ status: 401, message: 'This token is invalid' })
+  }
+}

@@ -3,6 +3,7 @@
 const express = require('express')
 const chalk = require('chalk')
 const { allPlacesFunction, allMyPlacesFunction, allItemsMenuPlacesFunction,
+  getInfoPlacesFunction,
   verifyHeadersTokenFunction, handleError, handleFatalError  } = require('../functions')
   const { idValid } = require('../validations')
 const app = express.Router()
@@ -64,21 +65,21 @@ app.get('/menu/:id', verifyHeadersTokenFunction, idValid, allItemsMenuPlacesFunc
 })
 
 // get show information
-app.get('/info/:id', (req, res, next) => {
-  // try {
-  //   const { message, data } = req
-  //   if (message === 'This is a report') {
-  //     res.status(200).json({
-  //       status: 200,
-  //       message,
-  //       data
-  //     })
-  //   } else {
-  //     return handleError(e)
-  //   }
-  // } catch (e) {
-  //   return handleFatalError(e)
-  // }
+app.get('/info/:id', verifyHeadersTokenFunction, idValid, getInfoPlacesFunction, (req, res, next) => {
+  try {
+    const { message, data } = req
+    if (message === 'List the places information') {
+      res.status(200).json({
+        status: 200,
+        message,
+        data
+      })
+    } else {
+      return handleError(e)
+    }
+  } catch (e) {
+    return handleFatalError(e)
+  }
 })
 
 // route show all reviews
