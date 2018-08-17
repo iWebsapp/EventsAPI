@@ -2,8 +2,9 @@
 
 const express = require('express')
 const chalk = require('chalk')
-const { allPlacesFunction, allMyPlacesFunction,
+const { allPlacesFunction, allMyPlacesFunction, allItemsMenuPlacesFunction,
   verifyHeadersTokenFunction, handleError, handleFatalError  } = require('../functions')
+  const { idValid } = require('../validations')
 const app = express.Router()
 // const guard = require('express-jwt-permissions')()
 
@@ -45,21 +46,21 @@ app.get('/my/all', verifyHeadersTokenFunction, allMyPlacesFunction, (req, res, n
 })
 
 // get menu of the places
-app.get('/menu/:id', (req, res, next) => {
-  // try {
-  //   const { message, data } = req
-  //   if (message === 'List of all reports') {
-  //     res.status(200).json({
-  //       status: 200,
-  //       message,
-  //       data
-  //     })
-  //   } else {
-  //     return handleError(e)
-  //   }
-  // } catch (e) {
-  //   return handleFatalError(e)
-  // }
+app.get('/menu/:id', verifyHeadersTokenFunction, idValid, allItemsMenuPlacesFunction, (req, res, next) => {
+  try {
+    const { message, data } = req
+    if (message === 'List the items menu places') {
+      res.status(200).json({
+        status: 200,
+        message,
+        data
+      })
+    } else {
+      return handleError(e)
+    }
+  } catch (e) {
+    return handleFatalError(e)
+  }
 })
 
 // get show information

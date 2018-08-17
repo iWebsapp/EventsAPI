@@ -8,7 +8,7 @@ const { loginUserFunction, createUserFunction,
   verifyHeadersTokenFunction, allUsersFunction,
   handleError, handleFatalError
 } = require('../functions')
-const { loginUserValid, emailValid, passwordChangeValid, passwordValid, birthdayValid } = require('../validations')
+const { idValid,  loginUserValid, emailValid, passwordChangeValid, passwordValid, birthdayValid } = require('../validations')
 const app = express.Router()
 // const guard = require('express-jwt-permissions')()
 
@@ -49,7 +49,7 @@ app.post('/create', loginUserValid, createUserFunction, (req, res, next) => {
 })
 
 // route activate user
-app.post('/activate/:id', activateUserFunction, (req, res, next) => {
+app.post('/activate/:id', idValid, activateUserFunction, (req, res, next) => {
   try {
     const { message } = req
     if (message === 'This user has been activated with success') {

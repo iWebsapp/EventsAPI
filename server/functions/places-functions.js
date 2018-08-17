@@ -9,6 +9,7 @@ const infoModel = require('../models/info-model')
 const promotionsModel = require('../models/promotions-model')
 const reviewsModel = require('../models/reviews-model')
 const guaranteedModel = require('../models/guaranteed-model')
+const itemsPlacesMenuModel = require('../models/itemPlacesMenu-model')
 const { verifyToken, meetInfoToken } = require('./')
 
 export const allPlacesFunction = (req, res, next) => {
@@ -39,5 +40,25 @@ export const allMyPlacesFunction = (req, res, next) => {
     next()
   } else {
     res.status(401).json({ status: 401, message: 'This token is invalid' })
+  }
+}
+
+
+export const allItemsMenuPlacesFunction = (req, res, next) => {
+  const token = req.token
+  const verify = verifyToken(token)
+  const idU = req.params.id
+  if (verify === 'Correct verification') {
+    let itemPlaces = []
+    for (var i = 0; i < itemsPlacesMenuModel['placesMenu'].length; i++) {
+      if (itemsPlacesMenuModel['placesMenu'][i].idPlaces == idU) {
+        itemPlaces.push(itemsPlacesMenuModel['placesMenu'][i].items)
+      }
+    }
+    req.message = 'List the items menu places'
+    req.data = itemPlaces
+    next()
+  } else {
+     res.status(401).json({ status: 401, message: 'This token is invalid' })
   }
 }

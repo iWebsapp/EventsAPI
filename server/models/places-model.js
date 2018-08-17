@@ -6,14 +6,6 @@ export const places = [{
   name: 'nombre del negocio',
   picture: '1.jpg',
   state: 0,
-  permissions: [{
-    info: true,
-    reviews: true,
-    coupons: true,
-    promotions: true,
-    products: true,
-    table: true
-  }],
   createdAt: new Date()
 },{
   idPlaces: 2,
@@ -21,14 +13,6 @@ export const places = [{
   name: 'nombre del negocio',
   picture: '2.jpg',
   state: 0,
-  permissions: [{
-    info: true,
-    reviews: true,
-    coupons: true,
-    promotions: true,
-    products: true,
-    table: true
-  }],
   createdAt: new Date()
 },{
   idPlaces: 3,
@@ -36,14 +20,6 @@ export const places = [{
   name: 'nombre del negocio',
   picture: '3.jpg',
   state: 0,
-  permissions: [{
-    info: true,
-    reviews: true,
-    coupons: true,
-    promotions: true,
-    products: true,
-    table: true
-  }],
   createdAt: new Date()
 },{
   idPlaces: 4,
@@ -51,13 +27,5 @@ export const places = [{
   name: 'nombre del negocio',
   picture: '4.jpg',
   state: 0,
-  permissions: [{
-    info: true,
-    reviews: true,
-    coupons: true,
-    promotions: true,
-    products: true,
-    table: true
-  }],
   createdAt: new Date()
 }]
