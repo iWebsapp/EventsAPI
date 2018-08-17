@@ -2,14 +2,12 @@
 
 const express = require('express')
 const chalk = require('chalk')
-const { createReportsFunction, deleteReportsFunction, allReportsFunction, getReportFunction,
-        verifyHeadersTokenFunction, handleError, handleFatalError  } = require('../functions')
-const { idValid, addReportValid } = require('../validations')
+const { verifyHeadersTokenFunction, handleError, handleFatalError  } = require('../functions')
 const app = express.Router()
 // const guard = require('express-jwt-permissions')()
 
 // route create user
-app.post('/create', addReportValid, createReportsFunction, (req, res, next) => {
+app.post('/create', (req, res, next) => {
   try {
     const { message } = req
     if (message === 'Create report success') {
@@ -26,7 +24,7 @@ app.post('/create', addReportValid, createReportsFunction, (req, res, next) => {
 })
 
 // get all users
-app.get('/all', allReportsFunction, (req, res, next) => {
+app.get('/all', (req, res, next) => {
   try {
     const { message, data } = req
     if (message === 'List of all reports') {
@@ -44,7 +42,7 @@ app.get('/all', allReportsFunction, (req, res, next) => {
 })
 
 // get all users
-app.get('/:id', idValid, getReportFunction, (req, res, next) => {
+app.get('/:id', (req, res, next) => {
   try {
     const { message, data } = req
     if (message === 'This is a report') {
@@ -62,7 +60,7 @@ app.get('/:id', idValid, getReportFunction, (req, res, next) => {
 })
 
 // route activate user
-app.delete('/delete/:id', verifyHeadersTokenFunction, idValid, deleteReportsFunction, (req, res, next) => {
+app.delete('/delete/:id', (req, res, next) => {
   try {
     const { message } = req
     if (message === 'This report has been deleted with success') {

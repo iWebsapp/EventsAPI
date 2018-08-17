@@ -11,7 +11,7 @@ const docs = require('./html')
 const src = require('./src-router')
 // MODULE CHAT
 const app = express()
-const { users, about, privacy, report } = require('./routes')
+const { users, about, privacy, report, places } = require('./routes')
 // CREATE SERVER FROM EXPRESS
 const server = http.Server(app)
 // PORT API
@@ -68,3 +68,4 @@ app.use('/api/v1/users', users)
 app.use('/api/v1/abouts', about)
 app.use('/api/v1/privacy', privacy)
 app.use('/api/v1/report', report)
+app.use('/api/v1/places', places)
