@@ -1,3 +1,5 @@
+'use strict'
+
 export const reports = [{
   idReport: 1,
   open: false,
