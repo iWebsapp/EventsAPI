@@ -1,3 +1,5 @@
+'use strict'
+
 export const users = [{
   idUser: 1,
   avatar: '1.jpg',
