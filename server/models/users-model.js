@@ -7,7 +7,16 @@ export const users = [{
   lastname: 'Castillo Zamorano',
   birthday: '19/10/1993',
   permissions: {
-    free: true
+    normal: false,
+    premium: false,
+    admin: [{
+        info: 'admin',
+        reviews: 'admin',
+        coupons: 'admin',
+        promotions: 'admin',
+        products: 'admin',
+        table: 'admin'
+    }]
   },
   state: 0,
   createdAt: new Date()
@@ -20,7 +29,15 @@ export const users = [{
   lastname: 'Jimenez Perez',
   birthday: '27/01/1997',
   permissions: {
-    free: true
+    normal: false,
+    premium: [{
+      info: 'premium',
+      reviews: 'premium',
+      coupons: 'premium',
+      promotions: 'premium',
+      products: 'premium',
+      table: 'premium'
+    }]
   },
   state: 0,
   createdAt: new Date()
@@ -33,7 +50,7 @@ export const users = [{
   lastname: 'Zamorano Lugo',
   birthday: '01/04/1966',
   permissions: {
-    free: true
+    normal: true
   },
   state: 0,
   createdAt: new Date()
