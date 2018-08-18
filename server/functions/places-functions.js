@@ -11,6 +11,7 @@ const promotionsModel = require('../models/promotions-model')
 const productsModel = require('../models/products-model')
 const reviewsModel = require('../models/reviews-model')
 const guaranteedModel = require('../models/guaranteed-model')
+const itemsGuaranteedModel = require('../models/itemsGuaranteed-model')
 const itemsPlacesMenuModel = require('../models/itemPlacesMenu-model')
 const { verifyToken, meetInfoToken, findUserByEmail } = require('./')
 const async = require('async')
@@ -262,6 +263,27 @@ export const allGuaranteedFunction = async (req, res, next) => {
       }
     }
     req.message = 'My list the guaranteed tables'
+    req.data = await data
+    next()
+  } else {
+    res.status(401).json({ status: 401, message: 'This token is invalid' })
+  }
+}
+
+
+
+export const allItemsGuaranteedFunction = async (req, res, next) => {
+  const token = req.token
+  const verify = verifyToken(token)
+  if (verify === 'Correct verification') {
+    let data = []
+    const idU = meetInfoToken(token)
+    for(var i = 0; i < itemsGuaranteedModel["itemsGuaranteeds"].length; i ++){
+      if(itemsGuaranteedModel["itemsGuaranteeds"][i].idPlaces == idU.idUser){
+        data.push(itemsGuaranteedModel["itemsGuaranteeds"][i])
+      }
+    }
+    req.message = 'My list the items guaranteed tables'
     req.data = await data
     next()
   } else {
