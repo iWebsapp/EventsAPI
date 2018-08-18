@@ -3,7 +3,7 @@
 const express = require('express')
 const chalk = require('chalk')
 const { allPlacesFunction, allMyPlacesFunction, allItemsMenuPlacesFunction,
-  getInfoPlacesFunction,
+  getInfoPlacesFunction, getReviewsPlacesFunction,
   verifyHeadersTokenFunction, handleError, handleFatalError  } = require('../functions')
   const { idValid } = require('../validations')
 const app = express.Router()
@@ -83,20 +83,21 @@ app.get('/info/:id', verifyHeadersTokenFunction, idValid, getInfoPlacesFunction,
 })
 
 // route show all reviews
-app.get('/review/all/:id', (req, res, next) => {
-  // try {
-  //   const { message } = req
-  //   if (message === 'This report has been deleted with success') {
-  //     res.status(200).json({
-  //       status: 200,
-  //       message
-  //     })
-  //   } else {
-  //     return handleError(e)
-  //   }
-  // } catch (e) {
-  //   return handleFatalError(e)
-  // }
+app.get('/reviews/:id', verifyHeadersTokenFunction, idValid, getReviewsPlacesFunction, (req, res, next) => {
+  try {
+    const { message, data } = req
+    if (message === 'List the places reviews') {
+      res.status(200).json({
+        status: 200,
+        message,
+        data
+      })
+    } else {
+      return handleError(e)
+    }
+  } catch (e) {
+    return handleFatalError(e)
+  }
 })
 
 

@@ -3,6 +3,7 @@
 const Debug = require('debug')
 const config = require('../config')
 const debug = new Debug(`${config.settings.name}:functions:reports`)
+const usersModel = require('../models/users-model')
 const placesModel = require('../models/places-model')
 const couponsModel = require('../models/coupons-model')
 const infoModel = require('../models/info-model')
@@ -70,14 +71,72 @@ export const getInfoPlacesFunction = (req, res, next) => {
   const verify = verifyToken(token)
   const idU = req.params.id
   if (verify === 'Correct verification') {
-    let itemPlaces = []
+    let itemInfo = []
     for (var i = 0; i < infoModel["info"].length; i++) {
        if (infoModel["info"][i].idPlaces == idU) {
-          itemPlaces.push(infoModel["info"][i])
+          itemInfo.push(infoModel["info"][i])
        }
     }
     req.message = 'List the places information'
-    req.data = itemPlaces
+    req.data = itemInfo
+    next()
+  } else {
+     res.status(401).json({ status: 401, message: 'This token is invalid' })
+  }
+}
+
+function joinUserFromReviews(reviews){
+    let itemFinal = []
+    for (var i = 0; i < reviews.length; i++) {
+        for (var j = 0; j < usersModel['users'].length; j++) {
+            let idUser = usersModel['users'][j].idUser
+            if( idUser == reviews[i].idUser ){
+                const itemId = usersModel['users'][i].idUser
+                const itemName = usersModel['users'][i].name
+                const itemLastname = usersModel['users'][i].lastname
+                const itemAvatar = usersModel['users'][i].avatar
+
+                const reviewCreatedAt = reviews[i].createdAt
+                const reviewMessage = reviews[i].message
+                const reviewPicture = reviews[i].picture
+
+                itemFinal.push({
+                  idUser: itemId,
+                  name: itemName,
+                  lastname: itemLastname,
+                  avatar: itemAvatar,
+                  message: reviewMessage,
+                  picture: reviewPicture,
+                  createdAt: reviewCreatedAt
+                })
+
+            }
+        }
+    }
+
+    return itemFinal
+}
+
+
+export const getReviewsPlacesFunction = (req, res, next) => {
+  const token = req.token
+  const verify = verifyToken(token)
+  const idU = req.params.id
+  if (verify === 'Correct verification') {
+    let itemReviews = []
+    for (var i = 0; i < reviewsModel["reviews"].length; i++) {
+        if (reviewsModel["reviews"][i].idPlaces == idU) {
+           itemReviews.push(reviewsModel["reviews"][i])
+        }
+    }
+
+    const data = [{
+      idPlaces: itemReviews[0].idPlaces,
+      reviews: joinUserFromReviews(itemReviews[0].reviews)
+    }]
+
+    req.message = 'List the places reviews'
+    req.data = data
     next()
   } else {
      res.status(401).json({ status: 401, message: 'This token is invalid' })
