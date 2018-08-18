@@ -169,7 +169,6 @@ export const createReviewsPlacesFunction = async (req, res, next) => {
     }
 
     const allReviews = reviewsModel['reviews']
-    //allReviews.push(review)
 
     for (var i = 0; i < allReviews.length; i++) {
         if (allReviews[i].idPlaces == idPlaces) {
@@ -181,5 +180,26 @@ export const createReviewsPlacesFunction = async (req, res, next) => {
     next()
   } else {
      res.status(401).json({ status: 401, message: 'This token is invalid' })
+  }
+}
+
+
+
+export const allCouponsFunction = async (req, res, next) => {
+  const token = req.token
+  const verify = verifyToken(token)
+  if (verify === 'Correct verification') {
+    let data = []
+    const idPlaces = req.params.id
+    for(var i = 0; i < couponsModel["coupons"].length; i ++){
+      if(couponsModel["coupons"][i].idPlaces == idPlaces){
+        data.push(couponsModel["coupons"][i])
+      }
+    }
+    req.message = 'List the places coupons'
+    req.data = await data
+    next()
+  } else {
+    res.status(401).json({ status: 401, message: 'This token is invalid' })
   }
 }
