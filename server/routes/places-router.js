@@ -4,7 +4,7 @@ const express = require('express')
 const chalk = require('chalk')
 const { allPlacesFunction, allMyPlacesFunction, allItemsMenuPlacesFunction,
   getInfoPlacesFunction, getReviewsPlacesFunction, createReviewsPlacesFunction,
-  allCouponsFunction, allPromotionsFunction, allProductsFunction,
+  allCouponsFunction, allPromotionsFunction, allProductsFunction, allGuaranteedFunction,
   verifyHeadersTokenFunction, handleError, handleFatalError  } = require('../functions')
   const { idValid, addReviewsValid } = require('../validations')
 const app = express.Router()
@@ -180,20 +180,21 @@ app.get('/products/all/:id', verifyHeadersTokenFunction, idValid, allProductsFun
 
 
 // route show guaranteed
-app.get('/guaranteed/all/:id', (req, res, next) => {
-  // try {
-  //   const { message } = req
-  //   if (message === 'This report has been deleted with success') {
-  //     res.status(200).json({
-  //       status: 200,
-  //       message
-  //     })
-  //   } else {
-  //     return handleError(e)
-  //   }
-  // } catch (e) {
-  //   return handleFatalError(e)
-  // }
+app.get('/guaranteed/all/:id', verifyHeadersTokenFunction, idValid, allGuaranteedFunction, (req, res, next) => {
+  try {
+    const { message, data } = req
+    if (message === 'My list the guaranteed tables') {
+      res.status(200).json({
+        status: 200,
+        message,
+        data
+      })
+    } else {
+      return handleError(res)
+    }
+  } catch (err) {
+    return handleFatalError(res, err)
+  }
 })
 
 

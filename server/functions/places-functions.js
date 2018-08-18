@@ -247,3 +247,24 @@ export const allProductsFunction = async (req, res, next) => {
     res.status(401).json({ status: 401, message: 'This token is invalid' })
   }
 }
+
+
+
+export const allGuaranteedFunction = async (req, res, next) => {
+  const token = req.token
+  const verify = verifyToken(token)
+  if (verify === 'Correct verification') {
+    let data = []
+    const idU = meetInfoToken(token)
+    for(var i = 0; i < guaranteedModel["guaranteeds"].length; i ++){
+      if(guaranteedModel["guaranteeds"][i].idPlaces == idU.idUser){
+        data.push(guaranteedModel["guaranteeds"][i])
+      }
+    }
+    req.message = 'My list the guaranteed tables'
+    req.data = await data
+    next()
+  } else {
+    res.status(401).json({ status: 401, message: 'This token is invalid' })
+  }
+}
