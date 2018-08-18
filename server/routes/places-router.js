@@ -184,7 +184,7 @@ app.get('/products/all/:id', verifyHeadersTokenFunction, idValid, allProductsFun
 app.get('/guaranteed/all/:id', verifyHeadersTokenFunction, idValid, allGuaranteedFunction, (req, res, next) => {
   try {
     const { message, data } = req
-    if (message === 'My list the guaranteed tables') {
+    if (message === 'List the guaranteed tables') {
       res.status(200).json({
         status: 200,
         message,
@@ -204,7 +204,7 @@ app.get('/guaranteed/all/:id', verifyHeadersTokenFunction, idValid, allGuarantee
 app.get('/guaranteed/items/:id', verifyHeadersTokenFunction, idValid, allItemsGuaranteedFunction, (req, res, next) => {
   try {
     const { message, data } = req
-    if (message === 'My list the items guaranteed tables') {
+    if (message === 'List the items guaranteed tables') {
       res.status(200).json({
         status: 200,
         message,

@@ -256,13 +256,13 @@ export const allGuaranteedFunction = async (req, res, next) => {
   const verify = verifyToken(token)
   if (verify === 'Correct verification') {
     let data = []
-    const idU = meetInfoToken(token)
+    const idU = req.params.id
     for(var i = 0; i < guaranteedModel["guaranteeds"].length; i ++){
-      if(guaranteedModel["guaranteeds"][i].idPlaces == idU.idUser){
+      if(guaranteedModel["guaranteeds"][i].idPlaces == idU){
         data.push(guaranteedModel["guaranteeds"][i])
       }
     }
-    req.message = 'My list the guaranteed tables'
+    req.message = 'List the guaranteed tables'
     req.data = await data
     next()
   } else {
@@ -277,13 +277,13 @@ export const allItemsGuaranteedFunction = async (req, res, next) => {
   const verify = verifyToken(token)
   if (verify === 'Correct verification') {
     let data = []
-    const idU = meetInfoToken(token)
+    const idU = req.params.id
     for(var i = 0; i < itemsGuaranteedModel["itemsGuaranteeds"].length; i ++){
-      if(itemsGuaranteedModel["itemsGuaranteeds"][i].idPlaces == idU.idUser){
+      if(itemsGuaranteedModel["itemsGuaranteeds"][i].idPlaces == idU){
         data.push(itemsGuaranteedModel["itemsGuaranteeds"][i])
       }
     }
-    req.message = 'My list the items guaranteed tables'
+    req.message = 'List the items guaranteed tables'
     req.data = await data
     next()
   } else {
