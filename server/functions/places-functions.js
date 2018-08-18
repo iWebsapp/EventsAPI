@@ -8,6 +8,7 @@ const placesModel = require('../models/places-model')
 const couponsModel = require('../models/coupons-model')
 const infoModel = require('../models/info-model')
 const promotionsModel = require('../models/promotions-model')
+const productsModel = require('../models/products-model')
 const reviewsModel = require('../models/reviews-model')
 const guaranteedModel = require('../models/guaranteed-model')
 const itemsPlacesMenuModel = require('../models/itemPlacesMenu-model')
@@ -218,6 +219,28 @@ export const allPromotionsFunction = async (req, res, next) => {
       }
     }
     req.message = 'List the places promotions'
+    req.data = await data
+    next()
+  } else {
+    res.status(401).json({ status: 401, message: 'This token is invalid' })
+  }
+}
+
+
+
+
+export const allProductsFunction = async (req, res, next) => {
+  const token = req.token
+  const verify = verifyToken(token)
+  if (verify === 'Correct verification') {
+    let data = []
+    const idPlaces = req.params.id
+    for(var i = 0; i < productsModel["products"].length; i ++){
+      if(productsModel["products"][i].idPlaces == idPlaces){
+        data.push(productsModel["products"][i])
+      }
+    }
+    req.message = 'List the places products'
     req.data = await data
     next()
   } else {

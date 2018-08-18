@@ -4,7 +4,7 @@ const express = require('express')
 const chalk = require('chalk')
 const { allPlacesFunction, allMyPlacesFunction, allItemsMenuPlacesFunction,
   getInfoPlacesFunction, getReviewsPlacesFunction, createReviewsPlacesFunction,
-  allCouponsFunction, allPromotionsFunction,
+  allCouponsFunction, allPromotionsFunction, allProductsFunction,
   verifyHeadersTokenFunction, handleError, handleFatalError  } = require('../functions')
   const { idValid, addReviewsValid } = require('../validations')
 const app = express.Router()
@@ -161,20 +161,21 @@ app.get('/promotions/all/:id', verifyHeadersTokenFunction, idValid, allPromotion
 
 
 // route show all product
-app.get('/products/all/:id', (req, res, next) => {
-  // try {
-  //   const { message } = req
-  //   if (message === 'This report has been deleted with success') {
-  //     res.status(200).json({
-  //       status: 200,
-  //       message
-  //     })
-  //   } else {
-  //     return handleError(e)
-  //   }
-  // } catch (e) {
-  //   return handleFatalError(e)
-  // }
+app.get('/products/all/:id', verifyHeadersTokenFunction, idValid, allProductsFunction, (req, res, next) => {
+  try {
+    const { message, data } = req
+    if (message === 'List the places products') {
+      res.status(200).json({
+        status: 200,
+        message,
+        data
+      })
+    } else {
+      return handleError(res)
+    }
+  } catch (err) {
+    return handleFatalError(res, err)
+  }
 })
 
 
