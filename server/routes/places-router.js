@@ -6,6 +6,7 @@ const { allPlacesFunction, allMyPlacesFunction, allItemsMenuPlacesFunction,
   getInfoPlacesFunction, getReviewsPlacesFunction, createReviewsPlacesFunction,
   allCouponsFunction, allPromotionsFunction, allProductsFunction, allGuaranteedFunction,
   allItemsGuaranteedFunction, createGuaranteedFunction, cancelGuaranteedFunction, getProductFunction,
+  createMyCouponsFunction,
   verifyHeadersTokenFunction, handleError, handleFatalError  } = require('../functions')
   const { idValid, addReviewsValid, addGuaranteedValid, idPlacesValid } = require('../validations')
 const app = express.Router()
@@ -132,6 +133,24 @@ app.get('/coupons/all/:id', verifyHeadersTokenFunction, idValid, allCouponsFunct
         status: 200,
         message,
         data
+      })
+    } else {
+      return handleError(res)
+    }
+  } catch (err) {
+    return handleFatalError(res, err)
+  }
+})
+
+
+// route show all coupons
+app.post('/coupons/create/my/:id', verifyHeadersTokenFunction, idValid, createMyCouponsFunction, (req, res, next) => {
+  try {
+    const { message } = req
+    if (message === 'Add my coupons with success') {
+      res.status(200).json({
+        status: 200,
+        message
       })
     } else {
       return handleError(res)

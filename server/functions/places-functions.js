@@ -6,6 +6,7 @@ const debug = new Debug(`${config.settings.name}:functions:reports`)
 const usersModel = require('../models/users-model')
 const placesModel = require('../models/places-model')
 const couponsModel = require('../models/coupons-model')
+const mycouponsModel = require('../models/mycoupons-model')
 const infoModel = require('../models/info-model')
 const promotionsModel = require('../models/promotions-model')
 const productsModel = require('../models/products-model')
@@ -208,6 +209,39 @@ export const allCouponsFunction = async (req, res, next) => {
 
 
 
+
+export const createMyCouponsFunction = async (req, res, next) => {
+  const token = req.token
+  const verify = verifyToken(token)
+  if (verify === 'Correct verification') {
+    const idU = meetInfoToken(token)
+    const idPlaces = req.params.id
+    let couponSelected = []
+    let dataCoupon = []
+    //select coupons coupons
+    for(var i = 0; i < couponsModel["coupons"].length; i ++){
+      if(couponsModel["coupons"][i].idPlaces == idPlaces){
+        couponSelected = couponsModel["coupons"][i].coupons
+      }
+    }
+
+    //my coupons
+    for(var i = 0; i < mycouponsModel["mycoupons"].length; i ++){
+      if( mycouponsModel["mycoupons"][i].idUser == idU.idUser ){
+        dataCoupon = mycouponsModel["mycoupons"][i].coupons
+        dataCoupon.push(couponSelected)
+      }
+    }
+
+    req.message = 'Add my coupons with success'
+    next()
+  } else {
+    res.status(401).json({ status: 401, message: 'This token is invalid' })
+  }
+}
+
+
+
 export const allPromotionsFunction = async (req, res, next) => {
   const token = req.token
   const verify = verifyToken(token)
@@ -366,7 +400,7 @@ export const getProductFunction = (req, res, next) => {
     const idProduct = req.params.id
     let arrayPlacs = []
     let data = []
-    
+
     for(var i = 0; i < productsModel["products"].length; i++){
       if( productsModel["products"][i].idPlaces == idPlaces ){
           arrayPlacs = productsModel["products"][i].products
@@ -376,6 +410,12 @@ export const getProductFunction = (req, res, next) => {
     for(var j = 0; j < arrayPlacs.length; j++){
       if( arrayPlacs[j].idProduct == idProduct ){
         data.push(arrayPlacs[j])
+      }
+    }
+
+    for(var i = 0; i < productsModel["products"].length; i++){
+      if( productsModel["products"][i].idPlaces == idPlaces ){
+          productsModel["products"][i].push(data)
       }
     }
 
