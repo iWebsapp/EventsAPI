@@ -304,6 +304,7 @@ export const createGuaranteedFunction = async (req, res, next) => {
       idUser: idU.idUser,
       numberOfPeople: parseInt(guaranteeds.numberOfPeople, 10),
       createdAt: new Date(),
+      state: 1,
       characteristics: [
         guaranteeds.characteristics
       ]
@@ -317,6 +318,38 @@ export const createGuaranteedFunction = async (req, res, next) => {
     }
 
     req.message = 'This guaranteed has been created with success'
+    next()
+  } else {
+     res.status(401).json({ status: 401, message: 'This token is invalid' })
+  }
+}
+
+
+export const cancelGuaranteedFunction = async (req, res, next) => {
+  const token = req.token
+  const verify = verifyToken(token)
+  const idPlaces = req.params.id
+  if (verify === 'Correct verification') {
+    const guaranteeds = req.body
+    const idU = meetInfoToken(token)
+
+    for (var i = 0; i < guaranteedModel['guaranteeds'].length; i++) {
+        if( guaranteedModel['guaranteeds'][i].idPlaces == idPlaces ) {
+            for (var j = 0; j < guaranteedModel['guaranteeds'][i]["data"].length; j++) {
+                if( guaranteedModel['guaranteeds'][i]["data"][j].idUser == idU.idUser ){
+                    const guarant = guaranteedModel['guaranteeds'][i]["data"][j]
+                    guarant.state = 0
+                    const oldGuarenteed = guaranteedModel['guaranteeds'][i]["data"]
+                    if(oldGuarenteed[j].idUser ){
+                    //   oldGuarenteed.splice(i, 1, newGuaranteed)
+                    }
+                    //editGuaranteed(guarant, i, j)
+                }
+            }
+        }
+    }
+
+    req.message = 'This guaranteed has been canceled with success'
     next()
   } else {
      res.status(401).json({ status: 401, message: 'This token is invalid' })
