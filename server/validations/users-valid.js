@@ -76,6 +76,9 @@ export const addUserValid = (req, res, next) => {
   }
 }
 
+
+
+
 // THIS FUNCTION IS THE ONE IN CHARGE THE VALIDATE ID IS NUMERIC OR REQUIRED
 export const idValid = (req, res, next) => {
   const validater = []
@@ -85,6 +88,28 @@ export const idValid = (req, res, next) => {
   } else {
     if (isNaN(req.params.id)) {
       const v = { fields: 'id', message: 'The id is not a number' }
+      validater.push(v)
+    }
+  }
+
+  if (validater.length === 0) {
+    next()
+  } else {
+    debug(validater)
+    return res.status(400).json(validater)
+  }
+}
+
+
+// THIS FUNCTION IS THE ONE IN CHARGE THE VALIDATE ID IS NUMERIC OR REQUIRED
+export const idPlacesValid = (req, res, next) => {
+  const validater = []
+  if (!req.params.idPlace) {
+    const v = { fields: 'idPlace', message: 'The idPlace is required' }
+    validater.push(v)
+  } else {
+    if (isNaN(req.params.idPlace)) {
+      const v = { fields: 'idPlace', message: 'The idPlace is not a number' }
       validater.push(v)
     }
   }

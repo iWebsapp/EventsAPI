@@ -5,9 +5,9 @@ const chalk = require('chalk')
 const { allPlacesFunction, allMyPlacesFunction, allItemsMenuPlacesFunction,
   getInfoPlacesFunction, getReviewsPlacesFunction, createReviewsPlacesFunction,
   allCouponsFunction, allPromotionsFunction, allProductsFunction, allGuaranteedFunction,
-  allItemsGuaranteedFunction, createGuaranteedFunction, cancelGuaranteedFunction,
+  allItemsGuaranteedFunction, createGuaranteedFunction, cancelGuaranteedFunction, getProductFunction,
   verifyHeadersTokenFunction, handleError, handleFatalError  } = require('../functions')
-  const { idValid, addReviewsValid, addGuaranteedValid } = require('../validations')
+  const { idValid, addReviewsValid, addGuaranteedValid, idPlacesValid } = require('../validations')
 const app = express.Router()
 // const guard = require('express-jwt-permissions')()
 
@@ -257,20 +257,21 @@ app.get('/guaranteed/cancel/:id', verifyHeadersTokenFunction, idValid, cancelGua
 
 
   // route show one product
-  app.get('/product/:id', (req, res, next) => {
-    // try {
-    //   const { message } = req
-    //   if (message === 'This report has been deleted with success') {
-    //     res.status(200).json({
-    //       status: 200,
-    //       message
-    //     })
-    //   } else {
-    //     return handleError(e)
-    //   }
-    // } catch (e) {
-    //   return handleFatalError(e)
-    // }
+  app.get('/product/:idPlace/:id', verifyHeadersTokenFunction, idValid, idPlacesValid, getProductFunction, (req, res, next) => {
+    try {
+      const { message, data } = req
+      if (message === 'This is a product') {
+        res.status(200).json({
+          status: 200,
+          message,
+          data
+        })
+      } else {
+        return handleError(res)
+      }
+    } catch (err) {
+      return handleFatalError(res, err)
+    }
   })
 
 

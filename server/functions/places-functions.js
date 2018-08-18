@@ -355,3 +355,34 @@ export const cancelGuaranteedFunction = async (req, res, next) => {
      res.status(401).json({ status: 401, message: 'This token is invalid' })
   }
 }
+
+
+
+export const getProductFunction = (req, res, next) => {
+  const token = req.token
+  const verify = verifyToken(token)
+  if (verify === 'Correct verification') {
+    const idPlaces = req.params.idPlace
+    const idProduct = req.params.id
+    let arrayPlacs = []
+    let data = []
+    
+    for(var i = 0; i < productsModel["products"].length; i++){
+      if( productsModel["products"][i].idPlaces == idPlaces ){
+          arrayPlacs = productsModel["products"][i].products
+      }
+    }
+
+    for(var j = 0; j < arrayPlacs.length; j++){
+      if( arrayPlacs[j].idProduct == idProduct ){
+        data.push(arrayPlacs[j])
+      }
+    }
+
+    req.message = 'This is a product'
+    req.data = data
+    next()
+  } else {
+    res.status(401).json({ status: 401, message: 'This token is invalid' })
+  }
+}
