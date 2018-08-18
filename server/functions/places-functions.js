@@ -11,7 +11,10 @@ const promotionsModel = require('../models/promotions-model')
 const reviewsModel = require('../models/reviews-model')
 const guaranteedModel = require('../models/guaranteed-model')
 const itemsPlacesMenuModel = require('../models/itemPlacesMenu-model')
-const { verifyToken, meetInfoToken } = require('./')
+const { verifyToken, meetInfoToken, findUserByEmail } = require('./')
+const async = require('async')
+const fs = require('fs')
+
 
 export const allPlacesFunction = (req, res, next) => {
   const token = req.token
@@ -24,6 +27,7 @@ export const allPlacesFunction = (req, res, next) => {
     res.status(401).json({ status: 401, message: 'This token is invalid' })
   }
 }
+
 
 export const allMyPlacesFunction = (req, res, next) => {
   const token = req.token
@@ -85,7 +89,8 @@ export const getInfoPlacesFunction = (req, res, next) => {
   }
 }
 
-function joinUserFromReviews(reviews){
+
+function joinUserFromReviews (reviews){
     let itemFinal = []
     for (var i = 0; i < reviews.length; i++) {
         for (var j = 0; j < usersModel['users'].length; j++) {
@@ -137,6 +142,42 @@ export const getReviewsPlacesFunction = (req, res, next) => {
 
     req.message = 'List the places reviews'
     req.data = data
+    next()
+  } else {
+     res.status(401).json({ status: 401, message: 'This token is invalid' })
+  }
+}
+
+
+export const createReviewsPlacesFunction = async (req, res, next) => {
+  const token = req.token
+  const verify = verifyToken(token)
+  const idPlaces = req.params.id
+  if (verify === 'Correct verification') {
+    const review = req.body
+    const idU = meetInfoToken(token)
+    review.idPlaces = idPlaces
+    review.idUser =  idU.idUser
+    review.createdAt = +new Date()
+
+    if(req.files.picture !== undefined){
+      const imgName = +new Date()
+      const extensionImage = req.files.picture.name.split(".").pop()
+      const updoadFile = await fs.rename(req.files.picture.path, 'server/images/'+ imgName +'.'+extensionImage)
+      const namePicture = imgName + '.' + extensionImage
+      review.picture = namePicture
+    }
+
+    const allReviews = reviewsModel['reviews']
+    //allReviews.push(review)
+
+    for (var i = 0; i < allReviews.length; i++) {
+        if (allReviews[i].idPlaces == idPlaces) {
+            allReviews[i]["reviews"].push(review)
+        }
+    }
+
+    req.message = 'This review has been created with success'
     next()
   } else {
      res.status(401).json({ status: 401, message: 'This token is invalid' })

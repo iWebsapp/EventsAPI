@@ -3,9 +3,9 @@
 const express = require('express')
 const chalk = require('chalk')
 const { allPlacesFunction, allMyPlacesFunction, allItemsMenuPlacesFunction,
-  getInfoPlacesFunction, getReviewsPlacesFunction,
+  getInfoPlacesFunction, getReviewsPlacesFunction, createReviewsPlacesFunction,
   verifyHeadersTokenFunction, handleError, handleFatalError  } = require('../functions')
-  const { idValid } = require('../validations')
+  const { idValid, addReviewsValid } = require('../validations')
 const app = express.Router()
 // const guard = require('express-jwt-permissions')()
 
@@ -103,20 +103,20 @@ app.get('/reviews/:id', verifyHeadersTokenFunction, idValid, getReviewsPlacesFun
 
 
 // route new review
-app.get('/review/create/:id', (req, res, next) => {
-  // try {
-  //   const { message } = req
-  //   if (message === 'This report has been deleted with success') {
-  //     res.status(200).json({
-  //       status: 200,
-  //       message
-  //     })
-  //   } else {
-  //     return handleError(e)
-  //   }
-  // } catch (e) {
-  //   return handleFatalError(e)
-  // }
+app.post('/review/create/:id', verifyHeadersTokenFunction, idValid, addReviewsValid, createReviewsPlacesFunction, (req, res, next) => {
+  try {
+    const { message } = req
+    if (message === 'This review has been created with success') {
+      res.status(200).json({
+        status: 200,
+        message
+      })
+    } else {
+      return handleError(e)
+    }
+  } catch (e) {
+    return handleFatalError(e)
+  }
 })
 
 
@@ -196,19 +196,19 @@ app.get('/guaranteed/all/:id', (req, res, next) => {
 
 // route show guaranteed items
 app.get('/guaranteed/items/:id', (req, res, next) => {
-  try {
-    const { message } = req
-    if (message === 'This report has been deleted with success') {
-      res.status(200).json({
-        status: 200,
-        message
-      })
-    } else {
-      return handleError(e)
-    }
-  } catch (e) {
-    return handleFatalError(e)
-  }
+  // try {
+  //   const { message } = req
+  //   if (message === 'This report has been deleted with success') {
+  //     res.status(200).json({
+  //       status: 200,
+  //       message
+  //     })
+  //   } else {
+  //     return handleError(e)
+  //   }
+  // } catch (e) {
+  //   return handleFatalError(e)
+  // }
 })
 
 
