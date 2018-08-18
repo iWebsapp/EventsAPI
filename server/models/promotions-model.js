@@ -11,7 +11,7 @@ export const promotions = [{
     name: "nombre del cupon"
   }]
 },{
-  idPlaces: 1,
+  idPlaces: 2,
   promotions: [{
     idPromotions: 2,
     createdAt: new Date(),
@@ -21,7 +21,7 @@ export const promotions = [{
     name: "nombre del cupon"
   }]
 },{
-  idPlaces: 1,
+  idPlaces: 3,
   promotions: [{
     idPromotions: 3,
     createdAt: new Date(),
@@ -31,7 +31,7 @@ export const promotions = [{
     name: "nombre del cupon"
   }]
 },{
-  idPlaces: 1,
+  idPlaces: 4,
   promotions: [{
     idPromotions: 4,
     createdAt: new Date(),

@@ -203,3 +203,24 @@ export const allCouponsFunction = async (req, res, next) => {
     res.status(401).json({ status: 401, message: 'This token is invalid' })
   }
 }
+
+
+
+export const allPromotionsFunction = async (req, res, next) => {
+  const token = req.token
+  const verify = verifyToken(token)
+  if (verify === 'Correct verification') {
+    let data = []
+    const idPlaces = req.params.id
+    for(var i = 0; i < promotionsModel["promotions"].length; i ++){
+      if(promotionsModel["promotions"][i].idPlaces == idPlaces){
+        data.push(promotionsModel["promotions"][i])
+      }
+    }
+    req.message = 'List the places promotions'
+    req.data = await data
+    next()
+  } else {
+    res.status(401).json({ status: 401, message: 'This token is invalid' })
+  }
+}

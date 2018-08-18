@@ -4,7 +4,7 @@ const express = require('express')
 const chalk = require('chalk')
 const { allPlacesFunction, allMyPlacesFunction, allItemsMenuPlacesFunction,
   getInfoPlacesFunction, getReviewsPlacesFunction, createReviewsPlacesFunction,
-  allCouponsFunction,
+  allCouponsFunction, allPromotionsFunction,
   verifyHeadersTokenFunction, handleError, handleFatalError  } = require('../functions')
   const { idValid, addReviewsValid } = require('../validations')
 const app = express.Router()
@@ -58,10 +58,10 @@ app.get('/menu/:id', verifyHeadersTokenFunction, idValid, allItemsMenuPlacesFunc
         data
       })
     } else {
-      return handleError(e)
+      return handleError(res)
     }
-  } catch (e) {
-    return handleFatalError(e)
+  } catch (err) {
+    return handleFatalError(res, err)
   }
 })
 
@@ -76,10 +76,10 @@ app.get('/info/:id', verifyHeadersTokenFunction, idValid, getInfoPlacesFunction,
         data
       })
     } else {
-      return handleError(e)
+      return handleError(res)
     }
-  } catch (e) {
-    return handleFatalError(e)
+  } catch (err) {
+    return handleFatalError(res, err)
   }
 })
 
@@ -94,10 +94,10 @@ app.get('/reviews/:id', verifyHeadersTokenFunction, idValid, getReviewsPlacesFun
         data
       })
     } else {
-      return handleError(e)
+      return handleError(res)
     }
-  } catch (e) {
-    return handleFatalError(e)
+  } catch (err) {
+    return handleFatalError(res, err)
   }
 })
 
@@ -113,10 +113,10 @@ app.post('/review/create/:id', verifyHeadersTokenFunction, idValid, addReviewsVa
         message
       })
     } else {
-      return handleError(e)
+      return handleError(res)
     }
-  } catch (e) {
-    return handleFatalError(e)
+  } catch (err) {
+    return handleFatalError(res, err)
   }
 })
 
@@ -133,29 +133,30 @@ app.get('/coupons/all/:id', verifyHeadersTokenFunction, idValid, allCouponsFunct
         data
       })
     } else {
-      return handleError(e)
+      return handleError(res)
     }
-  } catch (e) {
-    return handleFatalError(e)
+  } catch (err) {
+    return handleFatalError(res, err)
   }
 })
 
 
 // route show all promotions
-app.get('/promotions/all/:id', (req, res, next) => {
-  // try {
-  //   const { message } = req
-  //   if (message === 'This report has been deleted with success') {
-  //     res.status(200).json({
-  //       status: 200,
-  //       message
-  //     })
-  //   } else {
-  //     return handleError(e)
-  //   }
-  // } catch (e) {
-  //   return handleFatalError(e)
-  // }
+app.get('/promotions/all/:id', verifyHeadersTokenFunction, idValid, allPromotionsFunction, (req, res, next) => {
+  try {
+    const { message, data } = req
+    if (message === 'List the places promotions') {
+      res.status(200).json({
+        status: 200,
+        message,
+        data
+      })
+    } else {
+      return handleError(res)
+    }
+  } catch (err) {
+    return handleFatalError(res, err)
+  }
 })
 
 
