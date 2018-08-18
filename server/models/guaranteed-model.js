@@ -2,47 +2,62 @@
 
 export const guaranteeds = [{
   idPlaces: 1,
-  promotions: [{
+  data: [{
     idUser: 1,
     numberOfPeople: 3,
     createdAt: new Date(),
-    characteristics: [{
-      smokers: true,
-      bar: true,
-      table: true,
-      nearWindow: true,
-      nearKitchen: true,
-      nearExit: true
-    }]
+    characteristics: [
+      "smokers",
+      "bar",
+      "table",
+      "nearWindow",
+      "nearKitchen",
+      "nearExit"
+    ]
   }]
 },{
   idPlaces: 2,
-  promotions: [{
+  data: [{
     idUser: 2,
     numberOfPeople: 3,
     createdAt: new Date(),
-    characteristics: [{
-      smokers: true,
-      bar: true,
-      table: true,
-      nearWindow: true,
-      nearKitchen: true,
-      nearExit: true
-    }]
+    characteristics: [
+      "smokers",
+      "bar",
+      "table",
+      "nearWindow",
+      "nearKitchen",
+      "nearExit"
+    ]
   }]
 },{
   idPlaces: 3,
-  promotions: [{
+  data: [{
     idUser: 3,
     numberOfPeople: 3,
     createdAt: new Date(),
-    characteristics: [{
-      smokers: true,
-      bar: true,
-      table: true,
-      nearWindow: true,
-      nearKitchen: true,
-      nearExit: true
-    }]
+    characteristics: [
+      "smokers",
+      "bar",
+      "table",
+      "nearWindow",
+      "nearKitchen",
+      "nearExit"
+    ]
+  }]
+},{
+  idPlaces: 4,
+  data: [{
+    idUser: 4,
+    numberOfPeople: 3,
+    createdAt: new Date(),
+    characteristics: [
+      "smokers",
+      "bar",
+      "table",
+      "nearWindow",
+      "nearKitchen",
+      "nearExit"
+    ]
   }]
 }]

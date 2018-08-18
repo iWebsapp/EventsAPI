@@ -290,3 +290,35 @@ export const allItemsGuaranteedFunction = async (req, res, next) => {
     res.status(401).json({ status: 401, message: 'This token is invalid' })
   }
 }
+
+
+export const createGuaranteedFunction = async (req, res, next) => {
+  const token = req.token
+  const verify = verifyToken(token)
+  const idPlaces = req.params.id
+  if (verify === 'Correct verification') {
+    const guaranteeds = req.body
+    const idU = meetInfoToken(token)
+
+    const data = {
+      idUser: idU.idUser,
+      numberOfPeople: parseInt(guaranteeds.numberOfPeople, 10),
+      createdAt: new Date(),
+      characteristics: [
+        guaranteeds.characteristics
+      ]
+    }
+
+    const allGuaranteeds = guaranteedModel['guaranteeds']
+    for (var i = 0; i < allGuaranteeds.length; i++) {
+        if( allGuaranteeds[i].idPlaces == idPlaces ) {
+           allGuaranteeds[i]["data"].push(data)
+        }
+    }
+
+    req.message = 'This guaranteed has been created with success'
+    next()
+  } else {
+     res.status(401).json({ status: 401, message: 'This token is invalid' })
+  }
+}

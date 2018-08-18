@@ -5,9 +5,9 @@ const chalk = require('chalk')
 const { allPlacesFunction, allMyPlacesFunction, allItemsMenuPlacesFunction,
   getInfoPlacesFunction, getReviewsPlacesFunction, createReviewsPlacesFunction,
   allCouponsFunction, allPromotionsFunction, allProductsFunction, allGuaranteedFunction,
-  allItemsGuaranteedFunction,
+  allItemsGuaranteedFunction, createGuaranteedFunction,
   verifyHeadersTokenFunction, handleError, handleFatalError  } = require('../functions')
-  const { idValid, addReviewsValid } = require('../validations')
+  const { idValid, addReviewsValid, addGuaranteedValid } = require('../validations')
 const app = express.Router()
 // const guard = require('express-jwt-permissions')()
 
@@ -220,20 +220,20 @@ app.get('/guaranteed/items/:id', verifyHeadersTokenFunction, idValid, allItemsGu
 
 
 // route new guaranteed
-app.get('/guaranteed/create/:id', (req, res, next) => {
-  // try {
-  //   const { message } = req
-  //   if (message === 'This report has been deleted with success') {
-  //     res.status(200).json({
-  //       status: 200,
-  //       message
-  //     })
-  //   } else {
-  //     return handleError(e)
-  //   }
-  // } catch (e) {
-  //   return handleFatalError(e)
-  // }
+app.post('/guaranteed/create/:id', verifyHeadersTokenFunction, idValid, addGuaranteedValid, createGuaranteedFunction, (req, res, next) => {
+  try {
+    const { message } = req
+    if (message === 'This guaranteed has been created with success') {
+      res.status(200).json({
+        status: 200,
+        message
+      })
+    } else {
+      return handleError(res)
+    }
+  } catch (err) {
+    return handleFatalError(res, err)
+  }
 })
 
 
