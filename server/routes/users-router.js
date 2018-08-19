@@ -3,10 +3,8 @@
 const express = require('express')
 const chalk = require('chalk')
 const { loginUserFunction, createUserFunction,
-  activateUserFunction, changeBirthdayUserFunction,
-  changePasswordUserFunction, changeEmailUserFunction,
-  verifyHeadersTokenFunction, allUsersFunction,
-  handleError, handleFatalError
+  activateUserFunction, changeBirthdayUserFunction, changePasswordUserFunction, changeEmailUserFunction,
+  verifyHeadersTokenFunction, allUsersFunction, handleError, handleFatalError
 } = require('../functions')
 const { idValid,  loginUserValid, emailValid, passwordChangeValid, passwordValid, birthdayValid } = require('../validations')
 const app = express.Router()
