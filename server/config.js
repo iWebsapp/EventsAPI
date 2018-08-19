@@ -2,7 +2,7 @@
 
 module.exports = {
   settings: {
-    db: process.env.DB || 'mongodb://localhost:27017/EventDB',
+    db: process.env.DB || 'mongodb://localhost/EventDB',
     secret: process.env.SECRET || 'EventAppSecret',
     name: process.env.NAME || 'EventApi',
     port: process.env.PORT || 2715,

@@ -15,13 +15,12 @@ const app = express.Router()
 // route login
 app.post('/login', loginUserValid, loginUserFunction, (req, res, next) => {
   try {
-    const { message, token, idUser } = req
+    const { message, token } = req
     if (message === 'Login success') {
       res.status(200).json({
         status: 200,
         message,
-        token,
-        idUser
+        token
       })
     } else {
       return handleError(res)

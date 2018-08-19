@@ -46,7 +46,7 @@ export function findUserById (token) {
 // function create token from user
 export function createToken (user) {
   const users = {
-    idUser: user.idUser,
+    _id: user._id,
     permissions: user.permissions
   }
   return jwt.sign({ users }, config.settings.secret, { expiresIn: config.settings.exp })

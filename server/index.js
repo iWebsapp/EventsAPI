@@ -46,7 +46,7 @@ if (!module.parent) {
   process.on('unhandledRejection', handleFatalError)
 
   mongoose.Promise = global.Promise
-  mongoose.connect(config.settings.db, { useNewUrlParser: true }).then( data => {
+  mongoose.connect(config.settings.db, { autoIndex: false, useNewUrlParser: true }).then( data => {
     server.listen(PORT, () => {
       debug(`${config.settings.name} esta corriendo en el puerto ${PORT}`)
     })
