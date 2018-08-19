@@ -69,18 +69,14 @@ export const loginUserFunction = async (req, res, next) => {
   }
 }
 
-export const activateUserFunction = (req, res, next) => {
+export const activateUserFunction = async (req, res, next) => {
   const token = req.params.id
   const verify = verifyToken(token)
   if (verify === 'Correct verification') {
     const idU = meetInfoToken(token)
-    for (var i = 0; i < User['users'].length; i++) {
-      if (User['users'][i].idUser === idU.idUser) {
-        const user = User['users'][i]
-        user.state = 0
-        User['users'].splice(i, 1, user)
-      }
-    }
+    const user = await User.findOne({ _id:idU._id  })
+    user.state = 0
+    await user.save()
     req.message = 'This user has been activated with success'
     next()
   } else {

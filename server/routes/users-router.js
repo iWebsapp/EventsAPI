@@ -48,7 +48,7 @@ app.post('/create', loginUserValid, createUserFunction, (req, res, next) => {
 })
 
 // route activate user
-app.post('/activate/:id', idValid, activateUserFunction, (req, res, next) => {
+app.get('/activate/:id', idValid, activateUserFunction, (req, res, next) => {
   try {
     const { message } = req
     if (message === 'This user has been activated with success') {

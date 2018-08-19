@@ -85,11 +85,6 @@ export const idValid = (req, res, next) => {
   if (!req.params.id) {
     const v = { fields: 'id', message: 'The id is required' }
     validater.push(v)
-  } else {
-    if (isNaN(req.params.id)) {
-      const v = { fields: 'id', message: 'The id is not a number' }
-      validater.push(v)
-    }
   }
 
   if (validater.length === 0) {
@@ -107,12 +102,7 @@ export const idPlacesValid = (req, res, next) => {
   if (!req.params.idPlace) {
     const v = { fields: 'idPlace', message: 'The idPlace is required' }
     validater.push(v)
-  } else {
-    if (isNaN(req.params.idPlace)) {
-      const v = { fields: 'idPlace', message: 'The idPlace is not a number' }
-      validater.push(v)
-    }
-  }
+  } 
 
   if (validater.length === 0) {
     next()
