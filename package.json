@@ -25,6 +25,7 @@
     "async": "^2.6.1",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
+    "bcrypt": "^3.0.0",
     "body-parser": "^1.18.3",
     "chalk": "^2.4.1",
     "concurrently": "^3.6.1",

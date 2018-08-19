@@ -6,7 +6,7 @@ const User = require('../models/users-model')
 const debug = new Debug(`${config.settings.name}:functions:users`)
 const async = require('async')
 const { findUserByEmail, findUserByPassword, createToken, verifyToken, meetInfoToken, sendEmail } = require('./')
-
+const { hashSync, compareSync } = require('bcrypt')
 
 // function create new user
 export const createUserFunction = async (req, res, next) => {
@@ -16,7 +16,7 @@ export const createUserFunction = async (req, res, next) => {
 
     const u = new User({
       email,
-      password,
+      password: hashSync(password, 10),
       permissions: [
         "normal"
       ]
@@ -53,7 +53,7 @@ export const loginUserFunction = async (req, res, next) => {
   const user = await User.findOne({ email })
   if ( user !== null ) {
       if ( user["state"] == 0 || user["state"] == 1) {
-          if ( !(user["password"] == password) ) {
+          if ( !compareSync(password, user["password"]) ) {
             res.status(400).json({ status: 400, message: 'The password do not match' })
           } else {
             const token = createToken( user )
