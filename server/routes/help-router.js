@@ -2,17 +2,17 @@
 
 const express = require('express')
 const chalk = require('chalk')
-const { createReportsFunction, deleteReportsFunction, allReportsFunction, getReportFunction,
+const { createHelpFunction, deleteHelpFunction, allHelpFunction, getHelpFunction, editHelpFunction,
         verifyHeadersTokenFunction, handleError, handleFatalError  } = require('../functions')
 const { idValid, addReportValid } = require('../validations')
 const app = express.Router()
 // const guard = require('express-jwt-permissions')()
 
 // route create user
-app.post('/create', addReportValid, createReportsFunction, (req, res, next) => {
+app.post('/create', addReportValid, createHelpFunction, (req, res, next) => {
   try {
     const { message } = req
-    if (message === 'Create report success') {
+    if (message === 'Create help success') {
       res.status(200).json({
         status: 200,
         message
@@ -26,10 +26,10 @@ app.post('/create', addReportValid, createReportsFunction, (req, res, next) => {
 })
 
 // get all users
-app.get('/all', allReportsFunction, (req, res, next) => {
+app.get('/all', allHelpFunction, (req, res, next) => {
   try {
     const { message, data } = req
-    if (message === 'List of all reports') {
+    if (message === 'List of all helps') {
       res.status(200).json({
         status: 200,
         message,
@@ -44,10 +44,10 @@ app.get('/all', allReportsFunction, (req, res, next) => {
 })
 
 // get all users
-app.get('/:id', idValid, getReportFunction, (req, res, next) => {
+app.get('/:id', idValid, getHelpFunction, (req, res, next) => {
   try {
     const { message, data } = req
-    if (message === 'This is a report') {
+    if (message === 'This is a help') {
       res.status(200).json({
         status: 200,
         message,
@@ -62,10 +62,28 @@ app.get('/:id', idValid, getReportFunction, (req, res, next) => {
 })
 
 // route activate user
-app.delete('/delete/:id', verifyHeadersTokenFunction, idValid, deleteReportsFunction, (req, res, next) => {
+app.delete('/delete/:id', verifyHeadersTokenFunction, idValid, deleteHelpFunction, (req, res, next) => {
   try {
     const { message } = req
-    if (message === 'This report has been deleted with success') {
+    if (message === 'This help has been deleted with success') {
+      res.status(200).json({
+        status: 200,
+        message
+      })
+    } else {
+      return handleError(res)
+    }
+  } catch (err) {
+    return handleFatalError(res, err)
+  }
+})
+
+
+// route activate user
+app.post('/edit/:id', verifyHeadersTokenFunction, idValid, addReportValid, editHelpFunction, (req, res, next) => {
+  try {
+    const { message } = req
+    if (message === 'This help has been edited with success') {
       res.status(200).json({
         status: 200,
         message
