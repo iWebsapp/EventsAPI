@@ -2,10 +2,10 @@
 
 const Debug = require('debug')
 const config = require('../config')
-const usersModel = require('../models/users-model')
+const User = require('../models/users-model')
 const jwt = require('jsonwebtoken')
 const debug = new Debug(`${config.settings.name}:users:valid`)
-const { createToken, verifyToken, meetInfoToken, verifyHeadersTokenFunction, sendEmail, findUserById } = require('./')
+const { verifyToken, meetInfoToken, findUserById } = require('../functions')
 
 // THIS FUNCTION IS THE ONE IN CHARGE THE HAVE LOGIN
 export const loginUserValid = (req, res, next) => {
@@ -165,11 +165,11 @@ export const passwordValid = (req, res, next) => {
 }
 
 // THIS FUNCTION IS THE ONE IN CHARGE THE VALIDATE ID IS NUMERIC OR REQUIRED
-export const passwordChangeValid = (req, res, next) => {
+export const passwordChangeValid = async (req, res, next) => {
   const validater = []
   const token = req.token
   const password = req.body.password
-  const verify = verifyToken(token)
+  const verify = await verifyToken(token)
 
   if (!req.body.newpass) {
     const v = { fields: 'newpass', message: 'The newpass is required' }
@@ -180,13 +180,12 @@ export const passwordChangeValid = (req, res, next) => {
       validater.push(v)
     } else {
       if (verify === 'Correct verification') {
-        const user = findUserById(token)
-        if (user.length === 1) {
-          const passDB = user[0].password
-          if (passDB !== password) {
-            const v = { fields: 'password', message: 'This password is incorrect, try with another' }
-            validater.push(v)
-          }
+        const u = meetInfoToken(token)
+        const usr = await User.findOne({ _id: u._id })
+        const pss = await usr.password
+        if( pss != password ){
+          const v = { fields: 'password', message: 'This password is incorrect, try with another' }
+          validater.push(v)
         }
       } else {
         const v = { fields: 'token', message: 'The token is invalid' }
@@ -201,6 +200,7 @@ export const passwordChangeValid = (req, res, next) => {
     debug(validater)
     return res.status(400).json(validater)
   }
+
 }
 
 // THIS FUNCTION IS THE ONE IN CHARGE THE VALIDATE ID IS NUMERIC OR REQUIRED

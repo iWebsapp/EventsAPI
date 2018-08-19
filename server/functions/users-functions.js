@@ -114,19 +114,15 @@ export const changeEmailUserFunction = (req, res, next) => {
   }
 }
 
-export const changePasswordUserFunction = (req, res, next) => {
+export const changePasswordUserFunction = async (req, res, next) => {
   const token = req.token
   const data = req.body
   const verify = verifyToken(token)
   if (verify === 'Correct verification') {
     const idU = meetInfoToken(token)
-    for (var i = 0; i < User['users'].length; i++) {
-      if (User['users'][i].idUser === idU.idUser) {
-        const user = User['users'][i]
-        user.password = data.newpass
-        User['users'].splice(i, 1, user)
-      }
-    }
+    const user = await User.findOne({ _id:idU._id  })
+    user.password = data.newpass
+    await user.save()
     req.message = 'The password has been changed with this user'
     next()
   } else {
@@ -135,19 +131,14 @@ export const changePasswordUserFunction = (req, res, next) => {
 }
 
 export const changeBirthdayUserFunction = async (req, res, next) => {
-  const token = req.token
-  const data = req.body
-  const verify = verifyToken(token)
-  if (verify === 'Correct verification') {
+    const token = req.token
+    const data = req.body
     const idU = meetInfoToken(token)
     const user = await User.findOne({ _id:idU._id  })
     user.birthday = data.birthday
     await user.save()
     req.message = 'The birthday has been changed with this user'
     next()
-  } else {
-    res.status(401).json({ status: 401, message: 'This token is invalid' })
-  }
 }
 
 export const allUsersFunction = async (req, res, next) => {
