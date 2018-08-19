@@ -9,6 +9,8 @@ const config = require('./config')
 const formData = require('express-form-data')
 const docs = require('./html')
 const src = require('./src-router')
+const mongoose = require('mongoose')
+const async = require('async')
 // MODULE CHAT
 const app = express()
 const { users, about, privacy, report, places } = require('./routes')
@@ -43,9 +45,15 @@ if (!module.parent) {
   process.on('uncaughtException', handleFatalError)
   process.on('unhandledRejection', handleFatalError)
 
-  server.listen(PORT, () => {
-    debug(`${config.settings.name} esta corriendo en el puerto ${PORT}`)
+  mongoose.Promise = global.Promise
+  mongoose.connect(config.settings.db, { useNewUrlParser: true }).then( data => {
+    server.listen(PORT, () => {
+      debug(`${config.settings.name} esta corriendo en el puerto ${PORT}`)
+    })
+  }).catch( err => {
+    console.error(`${chalk.red('[fatal error]')} ${err.message}`)
   })
+
 }
 
 function handleFatalError (err) {
