@@ -4,12 +4,12 @@ const express = require('express')
 const chalk = require('chalk')
 const { createHelpFunction, deleteHelpFunction, allHelpFunction, getHelpFunction, editHelpFunction,
         verifyHeadersTokenFunction, handleError, handleFatalError  } = require('../functions')
-const { idValid, addReportValid } = require('../validations')
+const { idValid, addHelpValid } = require('../validations')
 const app = express.Router()
 // const guard = require('express-jwt-permissions')()
 
 // route create user
-app.post('/create', addReportValid, createHelpFunction, (req, res, next) => {
+app.post('/create', addHelpValid, createHelpFunction, (req, res, next) => {
   try {
     const { message } = req
     if (message === 'Create help success') {
@@ -80,7 +80,7 @@ app.delete('/delete/:id', verifyHeadersTokenFunction, idValid, deleteHelpFunctio
 
 
 // route activate user
-app.post('/edit/:id', verifyHeadersTokenFunction, idValid, addReportValid, editHelpFunction, (req, res, next) => {
+app.post('/edit/:id', verifyHeadersTokenFunction, idValid, addHelpValid, editHelpFunction, (req, res, next) => {
   try {
     const { message } = req
     if (message === 'This help has been edited with success') {

@@ -6,7 +6,7 @@ const debug = new Debug(`${config.settings.name}:report:valid`)
 
 
 // THIS FUNCTION IS THE ONE IN CHARGE THE VAILDATE NEW USER
-export const addReportValid = (req, res, next) => {
+export const addHelpValid = (req, res, next) => {
   const validater = []
 
   if (!req.body.cuestion) {
