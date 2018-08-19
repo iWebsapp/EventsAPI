@@ -2,20 +2,21 @@
 
 const Debug = require('debug')
 const config = require('../config')
-const aboutsModel = require('../models/abouts-model')
+const Abouts = require('../models/abouts-model')
 const { verifyToken } = require('./')
 const debug = new Debug(`${config.settings.name}:functions:abouts`)
 
 
-export const createAboutsFunction = (req, res, next) => {
+export const createAboutsFunction = async (req, res, next) => {
     const token = req.token
     const verify = verifyToken(token)
     if (verify === 'Correct verification'){
         const { content } = req.body
-        const newAbout = {
+        const newAbout = new Abouts({
           content
-        }
-        aboutsModel['abouts'] = newAbout
+        })
+        await Abouts.remove()
+        await newAbout.save()
         req.status = 200
         req.message = 'Create about success'
         next()
@@ -24,17 +25,18 @@ export const createAboutsFunction = (req, res, next) => {
     }
 }
 
-export const allAboutsFunction = (req, res, next) => {
+export const allAboutsFunction = async (req, res, next) => {
     req.message = 'List of all abouts'
-    req.data = aboutsModel['abouts']
+    const about = await Abouts.find()
+    req.data = about
     next()
 }
 
-export const deleteAboutsFunction = (req, res, next) => {
+export const deleteAboutsFunction = async (req, res, next) => {
   const token = req.token
   const verify = verifyToken(token)
   if (verify === 'Correct verification'){
-      aboutsModel['abouts'] = []
+      await Abouts.remove()
       req.status = 200
       req.message = 'This about has been deleted with success'
       next()

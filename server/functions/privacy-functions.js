@@ -2,20 +2,21 @@
 
 const Debug = require('debug')
 const config = require('../config')
-const privacyModel = require('../models/privacy-model')
+const Privacy = require('../models/privacy-model')
 const { verifyToken } = require('./')
 const debug = new Debug(`${config.settings.name}:functions:privacy`)
 
 
-export const createPrivacyFunction = (req, res, next) => {
+export const createPrivacyFunction = async (req, res, next) => {
     const token = req.token
     const verify = verifyToken(token)
     if (verify === 'Correct verification'){
         const { content } = req.body
-        const newAbout = {
+        const newPrivacy = new Privacy({
           content
-        }
-        privacyModel['privacy'] = newAbout
+        })
+        await Privacy.remove()
+        await newPrivacy.save()
         req.status = 200
         req.message = 'Create privacy success'
         next()
@@ -24,17 +25,18 @@ export const createPrivacyFunction = (req, res, next) => {
     }
 }
 
-export const allPrivacyFunction = (req, res, next) => {
+export const allPrivacyFunction = async (req, res, next) => {
     req.message = 'List of all privacy'
-    req.data = privacyModel['privacy']
+    const privacy = await Privacy.find()
+    req.data = privacy
     next()
 }
 
-export const deletePrivacyFunction = (req, res, next) => {
+export const deletePrivacyFunction = async (req, res, next) => {
   const token = req.token
   const verify = verifyToken(token)
   if (verify === 'Correct verification'){
-      privacyModel['privacy'] = []
+      await Privacy.remove()
       req.status = 200
       req.message = 'This privacy has been deleted with success'
       next()
