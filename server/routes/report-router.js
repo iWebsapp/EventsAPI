@@ -4,11 +4,12 @@ const express = require('express')
 const chalk = require('chalk')
 const { createReportFunction, createComentReportFunction, allReportsFunction, getReportFunction,
   verifyHeadersTokenFunction, handleError, handleFatalError } = require('../functions')
+const { addReportValid } = require('../validations')
 const app = express.Router()
 // const guard = require('express-jwt-permissions')()
 
 // route create report
-app.post('/create', verifyHeadersTokenFunction, createReportFunction, (req, res, next) => {
+app.post('/create', verifyHeadersTokenFunction, addReportValid, createReportFunction, (req, res, next) => {
   try {
     const { message } = req
     if (message === 'Create report success') {
@@ -26,7 +27,7 @@ app.post('/create', verifyHeadersTokenFunction, createReportFunction, (req, res,
 
 
 // route create comment
-app.post('/comment', verifyHeadersTokenFunction, createComentReportFunction, (req, res, next) => {
+app.post('/comment', verifyHeadersTokenFunction, addReportValid, createComentReportFunction, (req, res, next) => {
   try {
     const { message } = req
     if (message === 'Create comment success') {
