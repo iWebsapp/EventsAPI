@@ -4,9 +4,10 @@ const express = require('express')
 const chalk = require('chalk')
 const { loginUserFunction, createUserFunction,
   activateUserFunction, changeBirthdayUserFunction, changePasswordUserFunction, changeEmailUserFunction,
+  changeAvatarUserFunction,
   verifyHeadersTokenFunction, allUsersFunction, handleError, handleFatalError
 } = require('../functions')
-const { idValid,  loginUserValid, emailValid, passwordChangeValid, passwordValid, birthdayValid } = require('../validations')
+const { idValid, avatarValid, loginUserValid, emailValid, passwordChangeValid, passwordValid, birthdayValid } = require('../validations')
 const app = express.Router()
 // const guard = require('express-jwt-permissions')()
 
@@ -122,6 +123,23 @@ app.get('/all', verifyHeadersTokenFunction, allUsersFunction, (req, res, next) =
         status: 200,
         message,
         data
+      })
+    } else {
+      return handleError(res)
+    }
+  } catch (err) {
+    return handleFatalError(res, err)
+  }
+})
+
+// route change email user
+app.post('/change/avatar', verifyHeadersTokenFunction, avatarValid, changeAvatarUserFunction, (req, res, next) => {
+  try {
+    const { message } = req
+    if (message === 'The picture has been successfully loaded with user') {
+      res.status(200).json({
+        status: 200,
+        message
       })
     } else {
       return handleError(res)

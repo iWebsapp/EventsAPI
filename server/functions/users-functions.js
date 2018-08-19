@@ -6,7 +6,7 @@ const User = require('../models/users-model')
 const debug = new Debug(`${config.settings.name}:functions:users`)
 const async = require('async')
 const { findUserByEmail, findUserByPassword, createToken, verifyToken, meetInfoToken, sendEmail } = require('./')
-
+const fs = require('fs')
 
 // function create new user
 export const createUserFunction = async (req, res, next) => {
@@ -134,6 +134,26 @@ export const allUsersFunction = async (req, res, next) => {
   if (verify === 'Correct verification') {
     req.message = 'List of all users'
     req.data = await User.find()
+    next()
+  } else {
+    res.status(401).json({ status: 401, message: 'This token is invalid' })
+  }
+}
+
+export const changeAvatarUserFunction = async (req, res, next) => {
+  const token = req.token
+  const data = req.body
+  const verify = verifyToken(token)
+  if (verify === 'Correct verification') {
+    const idU = meetInfoToken(token)
+    const user = await User.findOne({ _id:idU._id  })
+    const imgName = +new Date() + '_avatar'
+    const extensionImage = req.files.avatar.name.split(".").pop()
+    const updoadFile = await fs.rename(req.files.avatar.path, 'server/images/'+ imgName +'.'+extensionImage)
+    const namePicture = imgName + '.' + extensionImage
+    user.avatar = namePicture
+    await user.save()
+    req.message = 'The picture has been successfully loaded with user'
     next()
   } else {
     res.status(401).json({ status: 401, message: 'This token is invalid' })

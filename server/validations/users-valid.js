@@ -40,14 +40,6 @@ export const loginUserValid = (req, res, next) => {
 // THIS FUNCTION IS THE ONE IN CHARGE THE VAILDATE NEW USER
 export const addUserValid = (req, res, next) => {
   const validater = []
-  // if (req.files.avatar) {
-  //   if (req.files.avatar.type !== 'image/jpeg') {
-  //     if (req.files.avatar.type !== 'image/png') {
-  //       const v = { fields: 'avatar', message: 'The avatar ( png, jpeg )' }
-  //       validater.push(v)
-  //     }
-  //   }
-  // }
 
   if (!req.body.email) {
     const v = { fields: 'email', message: 'The email is required' }
@@ -102,7 +94,7 @@ export const idPlacesValid = (req, res, next) => {
   if (!req.params.idPlace) {
     const v = { fields: 'idPlace', message: 'The idPlace is required' }
     validater.push(v)
-  } 
+  }
 
   if (validater.length === 0) {
     next()
@@ -204,6 +196,27 @@ export const birthdayValid = (req, res, next) => {
     if (!(/^\d{2}\/\d{2}\/\d{4}$/i.test(req.body.birthday))) {
       const v = { fields: 'birthday', message: 'This is not a valid birthday (dd/mm/yyyy)' }
       validater.push(v)
+    }
+  }
+
+  if (validater.length === 0) {
+    next()
+  } else {
+    debug(validater)
+    return res.status(400).json(validater)
+  }
+}
+
+
+export const avatarValid = (req, res, next) => {
+  const validater = []
+
+  if (!req.files.avatar) {
+    if (req.files.avatar.type !== 'image/jpeg') {
+      if (req.files.avatar.type !== 'image/png') {
+        const v = { fields: 'avatar', message: 'The avatar ( png, jpeg )' }
+        validater.push(v)
+      }
     }
   }
 
