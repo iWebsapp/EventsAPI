@@ -4,6 +4,7 @@ const Debug = require('debug')
 const config = require('../config')
 const Places = require('../models/places-model')
 const InfoPlaces = require('../models/infoplaces-model')
+const menuPlaces = require('../models/menuPlaces-model')
 const { verifyToken, meetInfoToken } = require('./')
 const debug = new Debug(`${config.settings.name}:functions:places`)
 const fs = require('fs')
@@ -67,6 +68,31 @@ export const createPlaceFunction = async (req, res, next) => {
         })
 
         await i.save()
+
+        const t = new menuPlaces({
+          _place: u._id,
+          items: [{
+            icon: "icon-info",
+            title: "Información"
+          },{
+            icon: "icon-comments",
+            title: "Comentarios"
+          },{
+            icon: "icon-coupons",
+            title: "Cupones"
+          },{
+            icon: "icon-promotions",
+            title: "Promociones"
+          },{
+            icon: "icon-products",
+            title: "Productos"
+          },{
+            icon: "icon-table-food",
+            title: "Mesa garantizada"
+          }]
+        })
+
+        await t.save()
         req.message = 'Create places success'
         next()
     } else {
@@ -160,7 +186,7 @@ export const editMyPlacesFunction = async (req, res, next) => {
         places.name = name
         places.picture = namePicture
         await places.save()
-        
+
         const placesinfo = await InfoPlaces.findOne({ _user:idU.id  })
         placesinfo.services = [ services ]
         placesinfo.description = description
@@ -192,4 +218,20 @@ export const editMyPlacesFunction = async (req, res, next) => {
   } else {
       res.status(401).json({ status: 401, message: 'This token is invalid' })
   }
+}
+
+
+
+export const profilePlacesFunction = async (req, res, next) => {
+    const token = req.token
+    const verify = verifyToken(token)
+    if (verify === 'Correct verification'){
+      const idU = meetInfoToken(token)
+      const data = await Places.find({ _user:idU._id, state:1 }).populate('_user', { avatar:true, state:true, createdAt:true })
+      req.data = data
+      req.message = 'This menu belongs to this place'
+      next()
+    } else {
+        res.status(401).json({ status: 401, message: 'This token is invalid' })
+    }
 }
