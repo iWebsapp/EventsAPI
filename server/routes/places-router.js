@@ -2,13 +2,12 @@
 
 const express = require('express')
 const chalk = require('chalk')
-const { createPlaceFunction, getAllPlacesFunction, getAllMyPlacesFunction,
+const { createPlaceFunction, getAllPlacesFunction, getAllMyPlacesFunction, deleteMyPlacesFunction, editMyPlacesFunction,
         verifyHeadersTokenFunction, handleError, handleFatalError  } = require('../functions')
 const { idValid, addPlacesValid } = require('../validations')
 const app = express.Router()
 // const guard = require('express-jwt-permissions')()
 
-// route create user
 app.post('/create', verifyHeadersTokenFunction, addPlacesValid, createPlaceFunction, (req, res, next) => {
   try {
     const { message } = req
@@ -43,7 +42,6 @@ app.get('/all', verifyHeadersTokenFunction, getAllPlacesFunction, (req, res, nex
   }
 })
 
-
 app.get('/my/all', verifyHeadersTokenFunction, getAllMyPlacesFunction, (req, res, next) => {
   try {
     const { message, data } = req
@@ -61,5 +59,37 @@ app.get('/my/all', verifyHeadersTokenFunction, getAllMyPlacesFunction, (req, res
   }
 })
 
+app.delete('/delete/:id', verifyHeadersTokenFunction, idValid, deleteMyPlacesFunction, (req, res, next) => {
+  try {
+    const { message } = req
+    if (message === 'This places has been deleted') {
+      res.status(200).json({
+        status: 200,
+        message
+      })
+    } else {
+      return handleError(res)
+    }
+  } catch (err) {
+    return handleFatalError(res, err)
+  }
+})
+
+
+app.post('/edit/:id', verifyHeadersTokenFunction, addPlacesValid, editMyPlacesFunction, (req, res, next) => {
+  try {
+    const { message } = req
+    if (message === 'This places has been edited') {
+      res.status(200).json({
+        status: 200,
+        message
+      })
+    } else {
+      return handleError(res)
+    }
+  } catch (err) {
+    return handleFatalError(res, err)
+  }
+})
 
 export default app
