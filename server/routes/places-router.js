@@ -3,7 +3,7 @@
 const express = require('express')
 const chalk = require('chalk')
 const { createPlaceFunction, getAllPlacesFunction, getAllMyPlacesFunction, deleteMyPlacesFunction, editMyPlacesFunction,
-        profilePlacesFunction,
+        profilePlacesFunction, profileInfoPlacesFunction,
         verifyHeadersTokenFunction, handleError, handleFatalError  } = require('../functions')
 const { idValid, addPlacesValid } = require('../validations')
 const app = express.Router()
@@ -98,6 +98,25 @@ app.get('/profile/:id', verifyHeadersTokenFunction, idValid, profilePlacesFuncti
   try {
     const { message, data } = req
     if (message === 'This menu belongs to this place') {
+      res.status(200).json({
+        status: 200,
+        message,
+        data
+      })
+    } else {
+      return handleError(res)
+    }
+  } catch (err) {
+    return handleFatalError(res, err)
+  }
+})
+
+
+
+app.get('/profile/info/:id', verifyHeadersTokenFunction, idValid, profileInfoPlacesFunction, (req, res, next) => {
+  try {
+    const { message, data } = req
+    if (message === 'This information is from this place') {
       res.status(200).json({
         status: 200,
         message,

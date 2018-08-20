@@ -4,21 +4,65 @@ const Debug = require('debug')
 const config = require('../config')
 const Places = require('../models/places-model')
 const InfoPlaces = require('../models/infoplaces-model')
-const menuPlaces = require('../models/menuPlaces-model')
+const MenuPlaces = require('../models/menuPlaces-model')
 const { verifyToken, meetInfoToken } = require('./')
 const debug = new Debug(`${config.settings.name}:functions:places`)
 const fs = require('fs')
+
+export function dataInfoPlaces(req, u){
+  const { monday, tuesday, wednesday, thursday, friday, saturday, sunday,
+          phone, cellphone, email, website,
+          facebook, twitter, instagram,
+          services, description, address
+         } = req.body
+  const info = new InfoPlaces({
+    _place: u._id,
+    description,
+    address,
+    services,
+    social: [{
+      facebook: facebook || undefined,
+      twitter: twitter || undefined,
+      instagram: instagram || undefined
+    }],
+    contact: [{
+      phone: phone || undefined,
+      cellphone: cellphone || undefined,
+      email: email || undefined,
+      website: website || undefined
+    }],
+    schedules: [{
+      monday: monday || undefined,
+      tuesday: tuesday || undefined,
+      wednesday: wednesday || undefined,
+      thursday: thursday || undefined,
+      friday: friday || undefined,
+      saturday: saturday || undefined,
+      sunday: sunday || undefined
+    }]
+  })
+  return info
+}
+
+export function dataMenuPlaces(u){
+  const menu = new MenuPlaces({
+    _place: u._id,
+    items: [{
+      icon: "icon-info",
+      title: "Información"
+    },{
+      icon: "icon-comments",
+      title: "Comentarios"
+    }]
+  })
+  return menu
+}
 
 export const createPlaceFunction = async (req, res, next) => {
   const token = req.token
   const verify = verifyToken(token)
   if (verify === 'Correct verification'){
-    const { name,
-            monday, tuesday, wednesday, thursday, friday, saturday, sunday,
-            phone, cellphone, email, website,
-            facebook, twitter, instagram,
-            services, description, address
-           } = req.body
+    const { name } = req.body
     const placeName = await Places.findOne({ name })
     if ( placeName == undefined ) {
         const idU = meetInfoToken(token)
@@ -39,60 +83,8 @@ export const createPlaceFunction = async (req, res, next) => {
         })
 
         const u = await p.save()
-
-        const i = new InfoPlaces({
-          _place: u._id,
-          description,
-          address,
-          services,
-          social: [{
-            facebook: facebook || undefined,
-            twitter: twitter || undefined,
-            instagram: instagram || undefined
-          }],
-          contact: [{
-            phone: phone || undefined,
-            cellphone: cellphone || undefined,
-            email: email || undefined,
-            website: website || undefined
-          }],
-          schedules: [{
-            monday: monday || undefined,
-            tuesday: tuesday || undefined,
-            wednesday: wednesday || undefined,
-            thursday: thursday || undefined,
-            friday: friday || undefined,
-            saturday: saturday || undefined,
-            sunday: sunday || undefined
-          }]
-        })
-
-        await i.save()
-
-        const t = new menuPlaces({
-          _place: u._id,
-          items: [{
-            icon: "icon-info",
-            title: "Información"
-          },{
-            icon: "icon-comments",
-            title: "Comentarios"
-          },{
-            icon: "icon-coupons",
-            title: "Cupones"
-          },{
-            icon: "icon-promotions",
-            title: "Promociones"
-          },{
-            icon: "icon-products",
-            title: "Productos"
-          },{
-            icon: "icon-table-food",
-            title: "Mesa garantizada"
-          }]
-        })
-
-        await t.save()
+        await dataInfoPlaces(req, u).save()
+        await dataMenuPlaces(u).save()
         req.message = 'Create places success'
         next()
     } else {
@@ -226,10 +218,27 @@ export const profilePlacesFunction = async (req, res, next) => {
     const token = req.token
     const verify = verifyToken(token)
     if (verify === 'Correct verification'){
-      const idU = meetInfoToken(token)
-      const data = await Places.find({ _user:idU._id, state:1 }).populate('_user', { avatar:true, state:true, createdAt:true })
+      const id = req.params.id
+      const data = await MenuPlaces.find({ _place:id })
       req.data = data
       req.message = 'This menu belongs to this place'
+      next()
+    } else {
+        res.status(401).json({ status: 401, message: 'This token is invalid' })
+    }
+}
+
+
+
+export const profileInfoPlacesFunction = async (req, res, next) => {
+    const token = req.token
+    const verify = verifyToken(token)
+    if (verify === 'Correct verification'){
+      const id = req.params.id
+      //populate
+      const data = await InfoPlaces.find({ _place:id })
+      req.data = data
+      req.message = 'This information is from this place'
       next()
     } else {
         res.status(401).json({ status: 401, message: 'This token is invalid' })
