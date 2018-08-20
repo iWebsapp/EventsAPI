@@ -24,7 +24,7 @@ export const createReportFunction = async (req, res, next) => {
           report: report.report,
           type: "report",
           screenshot: namePicture,
-          user: idU._id
+          _user: idU._id
         })
         await data.save()
         req.status = 200
@@ -35,7 +35,7 @@ export const createReportFunction = async (req, res, next) => {
         const data = new Reports({
           report: report.report,
           type: "report",
-          user: idU._id
+          _user: idU._id
         })
         await data.save()
         req.status = 200
@@ -60,7 +60,7 @@ export const createComentReportFunction = async (req, res, next) => {
       const data = new Reports({
         report: report.report,
         type: "report comment",
-        user: idU._id,
+        _user: idU._id,
       })
 
       await data.save()
@@ -77,7 +77,7 @@ export const allReportsFunction = async (req, res, next) => {
   const token = req.token
   const verify = verifyToken(token)
   if (verify === 'Correct verification') {
-    const data = await Reports.find().populate('user')
+    const data = await Reports.find().populate('_user')
     req.status = 200
     req.message = 'List of all reports'
     req.data = data
