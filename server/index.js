@@ -13,7 +13,7 @@ const mongoose = require('mongoose')
 const async = require('async')
 // MODULE CHAT
 const app = express()
-const { users, about, privacy, help, report, places } = require('./routes')
+const { users, about, privacy, help, report, places, placesinfo, placesreview } = require('./routes')
 // CREATE SERVER FROM EXPRESS
 const server = http.Server(app)
 // PORT API
@@ -78,3 +78,5 @@ app.use('/api/v1/privacy', privacy)
 app.use('/api/v1/help', help)
 app.use('/api/v1/report', report)
 app.use('/api/v1/places', places)
+app.use('/api/v1/places/profile', placesinfo)
+app.use('/api/v1/places/review', placesreview)
