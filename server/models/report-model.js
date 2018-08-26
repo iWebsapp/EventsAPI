@@ -10,7 +10,7 @@ const ReportSchema = Schema({
   type: { type: String, required: true },
   screenshot: { type: String },
   createdAt: { type: String, default: Date.now, required: true },
-  _user: { type:ObjectId, ref: 'users', required: true }
+  _user: { type: ObjectId, ref: 'users', required: true }
 })
 
 module.exports = mongoose.model('reports', ReportSchema)

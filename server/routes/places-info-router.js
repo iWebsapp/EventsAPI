@@ -1,13 +1,11 @@
 'use strict'
 
 const express = require('express')
-const chalk = require('chalk')
 const { profilePlacesFunction, profileInfoPlacesFunction,
-        verifyHeadersTokenFunction, handleError, handleFatalError  } = require('../functions')
+  verifyHeadersTokenFunction, handleError, handleFatalError } = require('../functions')
 const { idValid } = require('../validations')
 const app = express.Router()
 // const guard = require('express-jwt-permissions')()
-
 
 app.get('/:id', verifyHeadersTokenFunction, idValid, profilePlacesFunction, (req, res, next) => {
   try {
@@ -25,7 +23,6 @@ app.get('/:id', verifyHeadersTokenFunction, idValid, profilePlacesFunction, (req
     return handleFatalError(res, err)
   }
 })
-
 
 app.get('/info/:id', verifyHeadersTokenFunction, idValid, profileInfoPlacesFunction, (req, res, next) => {
   try {

@@ -5,10 +5,10 @@ const Schema = mongoose.Schema
 const { ObjectId } = Schema.Types
 
 const PlacesSchema = Schema({
-  _user: { type:ObjectId, ref: 'users', required: true },
+  _user: { type: ObjectId, ref: 'users', required: true },
   name: { type: String, required: true },
-  picture: { type: String, default: 'default__place.png',required: true },
-  state: { type: Number, default:1, required: true },
+  picture: { type: String, default: 'default__place.png', required: true },
+  state: { type: Number, default: 1, required: true },
   createdAt: { type: String, default: Date.now, required: true }
 })
 

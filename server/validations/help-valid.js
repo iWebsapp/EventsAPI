@@ -1,9 +1,8 @@
 'use strict'
 
-const Debug = require('debug')
-const config = require('../config')
-const debug = new Debug(`${config.settings.name}:report:valid`)
-
+// const Debug = require('debug')
+// const config = require('../config')
+// const debug = new Debug(`${config.settings.name}:report:valid`)
 
 // THIS FUNCTION IS THE ONE IN CHARGE THE VAILDATE NEW USER
 export const addHelpValid = (req, res, next) => {

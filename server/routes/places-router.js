@@ -1,10 +1,9 @@
 'use strict'
 
 const express = require('express')
-const chalk = require('chalk')
 const { createPlaceFunction, getAllPlacesFunction, getAllMyPlacesFunction, deleteMyPlacesFunction, editMyPlacesFunction,
-        profilePlacesFunction, profileInfoPlacesFunction,
-        verifyHeadersTokenFunction, handleError, handleFatalError  } = require('../functions')
+  profilePlacesFunction, profileInfoPlacesFunction,
+  verifyHeadersTokenFunction, handleError, handleFatalError } = require('../functions')
 const { idValid, addPlacesValid } = require('../validations')
 const app = express.Router()
 // const guard = require('express-jwt-permissions')()
@@ -24,7 +23,6 @@ app.post('/create', verifyHeadersTokenFunction, addPlacesValid, createPlaceFunct
     return handleFatalError(res, err)
   }
 })
-
 
 app.get('/all', verifyHeadersTokenFunction, getAllPlacesFunction, (req, res, next) => {
   try {
@@ -76,7 +74,6 @@ app.delete('/delete/:id', verifyHeadersTokenFunction, idValid, deleteMyPlacesFun
   }
 })
 
-
 app.post('/edit/:id', verifyHeadersTokenFunction, idValid, addPlacesValid, editMyPlacesFunction, (req, res, next) => {
   try {
     const { message } = req
@@ -92,7 +89,6 @@ app.post('/edit/:id', verifyHeadersTokenFunction, idValid, addPlacesValid, editM
     return handleFatalError(res, err)
   }
 })
-
 
 app.get('/profile/:id', verifyHeadersTokenFunction, idValid, profilePlacesFunction, (req, res, next) => {
   try {
@@ -110,8 +106,6 @@ app.get('/profile/:id', verifyHeadersTokenFunction, idValid, profilePlacesFuncti
     return handleFatalError(res, err)
   }
 })
-
-
 
 app.get('/profile/info/:id', verifyHeadersTokenFunction, idValid, profileInfoPlacesFunction, (req, res, next) => {
   try {

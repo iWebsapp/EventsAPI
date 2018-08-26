@@ -1,9 +1,8 @@
 'use strict'
 
-const Debug = require('debug')
-const config = require('../config')
-const debug = new Debug(`${config.settings.name}:places:valid`)
-
+// const Debug = require('debug')
+// const config = require('../config')
+// const debug = new Debug(`${config.settings.name}:places:valid`)
 
 // THIS FUNCTION IS THE ONE IN CHARGE THE VAILDATE NEW USER
 export const addPlacesValid = (req, res, next) => {
@@ -164,5 +163,4 @@ export const addPlacesValid = (req, res, next) => {
   } else {
     return res.status(400).json(validater)
   }
-
 }

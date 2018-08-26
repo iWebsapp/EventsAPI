@@ -1,5 +1,6 @@
 'use strict'
 
+const path = require('path')
 const express = require('express')
 const chalk = require('chalk')
 const http = require('http')
@@ -10,7 +11,6 @@ const formData = require('express-form-data')
 const docs = require('./html')
 const src = require('./src-router')
 const mongoose = require('mongoose')
-const async = require('async')
 // MODULE CHAT
 const app = express()
 const { users, about, privacy, help, report, places, placesinfo, placesreview } = require('./routes')
@@ -32,7 +32,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(formData.parse(options))
 app.use(formData.format())
 
-if (process.env.NODE_ENV == 'development') {
+if (process.env.NODE_ENV === 'development') {
   app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Request-With, Content-Type, Accept, X-Requested-With, content-type')
@@ -47,14 +47,13 @@ if (!module.parent) {
   process.on('unhandledRejection', handleFatalError)
 
   mongoose.Promise = global.Promise
-  mongoose.connect(config.settings.db, { autoIndex: false, useNewUrlParser: true }).then( data => {
+  mongoose.connect(config.settings.db, { autoIndex: false, useNewUrlParser: true }).then(data => {
     server.listen(PORT, () => {
       debug(`${config.settings.name} esta corriendo en el puerto ${PORT}`)
     })
-  }).catch( err => {
+  }).catch(err => {
     console.error(`${chalk.red('[fatal error]')} ${err.message}`)
   })
-
 }
 
 function handleFatalError (err) {
@@ -64,7 +63,7 @@ function handleFatalError (err) {
 }
 
 app.get('/', function (req, res) {
-  res.render(__dirname + '/html/docs/login.ejs')
+  res.render(path.join(__dirname, '/html/docs/login.ejs'))
 })
 
 // ALL ROUTES FROM SRC

@@ -1,8 +1,8 @@
 'use strict'
 
-const Debug = require('debug')
-const config = require('../config')
-const debug = new Debug(`${config.settings.name}:users:valid`)
+// const Debug = require('debug')
+// const config = require('../config')
+// const debug = new Debug(`${config.settings.name}:users:valid`)
 
 // THIS FUNCTION IS THE ONE IN CHARGE THE VAILDATE NEW USER
 export const addReviewsValid = (req, res, next) => {

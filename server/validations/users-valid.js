@@ -1,11 +1,11 @@
 'use strict'
 
-const Debug = require('debug')
-const config = require('../config')
+// const Debug = require('debug')
+// const config = require('../config')
 const User = require('../models/users-model')
-const jwt = require('jsonwebtoken')
-const debug = new Debug(`${config.settings.name}:users:valid`)
-const { verifyToken, meetInfoToken, findUserById } = require('../functions')
+// const jwt = require('jsonwebtoken')
+// const debug = new Debug(`${config.settings.name}:users:valid`)
+const { verifyToken, meetInfoToken } = require('../functions')
 
 // THIS FUNCTION IS THE ONE IN CHARGE THE HAVE LOGIN
 export const loginUserValid = (req, res, next) => {
@@ -68,9 +68,6 @@ export const addUserValid = (req, res, next) => {
   }
 }
 
-
-
-
 // THIS FUNCTION IS THE ONE IN CHARGE THE VALIDATE ID IS NUMERIC OR REQUIRED
 export const idValid = (req, res, next) => {
   const validater = []
@@ -82,11 +79,9 @@ export const idValid = (req, res, next) => {
   if (validater.length === 0) {
     next()
   } else {
-    debug(validater)
     return res.status(400).json(validater)
   }
 }
-
 
 // THIS FUNCTION IS THE ONE IN CHARGE THE VALIDATE ID IS NUMERIC OR REQUIRED
 export const idPlacesValid = (req, res, next) => {
@@ -99,7 +94,6 @@ export const idPlacesValid = (req, res, next) => {
   if (validater.length === 0) {
     next()
   } else {
-    debug(validater)
     return res.status(400).json(validater)
   }
 }
@@ -120,7 +114,6 @@ export const emailValid = (req, res, next) => {
   if (validater.length === 0) {
     next()
   } else {
-    debug(validater)
     return res.status(400).json(validater)
   }
 }
@@ -141,7 +134,6 @@ export const passwordValid = (req, res, next) => {
   if (validater.length === 0) {
     next()
   } else {
-    debug(validater)
     return res.status(400).json(validater)
   }
 }
@@ -165,7 +157,7 @@ export const passwordChangeValid = async (req, res, next) => {
         const u = meetInfoToken(token)
         const usr = await User.findOne({ _id: u._id })
         const pss = await usr.password
-        if( pss != password ){
+        if (pss !== password) {
           const v = { fields: 'password', message: 'This password is incorrect, try with another' }
           validater.push(v)
         }
@@ -179,10 +171,8 @@ export const passwordChangeValid = async (req, res, next) => {
   if (validater.length === 0) {
     next()
   } else {
-    debug(validater)
     return res.status(400).json(validater)
   }
-
 }
 
 // THIS FUNCTION IS THE ONE IN CHARGE THE VALIDATE ID IS NUMERIC OR REQUIRED
@@ -202,11 +192,9 @@ export const birthdayValid = (req, res, next) => {
   if (validater.length === 0) {
     next()
   } else {
-    debug(validater)
     return res.status(400).json(validater)
   }
 }
-
 
 export const avatarValid = (req, res, next) => {
   const validater = []
@@ -223,7 +211,6 @@ export const avatarValid = (req, res, next) => {
   if (validater.length === 0) {
     next()
   } else {
-    debug(validater)
     return res.status(400).json(validater)
   }
 }

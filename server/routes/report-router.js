@@ -1,8 +1,7 @@
 'use strict'
 
 const express = require('express')
-const chalk = require('chalk')
-const { createReportFunction, createComentReportFunction, allReportsFunction, getReportFunction,
+const { createReportFunction, createComentReportFunction, allReportsFunction,
   verifyHeadersTokenFunction, handleError, handleFatalError } = require('../functions')
 const { addReportValid } = require('../validations')
 const app = express.Router()
@@ -24,7 +23,6 @@ app.post('/create', verifyHeadersTokenFunction, addReportValid, createReportFunc
     return handleFatalError(res, err)
   }
 })
-
 
 // route create comment
 app.post('/comment', verifyHeadersTokenFunction, addReportValid, createComentReportFunction, (req, res, next) => {
@@ -60,6 +58,5 @@ app.get('/all', verifyHeadersTokenFunction, allReportsFunction, (req, res, next)
     return handleFatalError(res, err)
   }
 })
-
 
 export default app

@@ -7,6 +7,6 @@ module.exports = {
     name: process.env.NAME || 'EventApi',
     port: process.env.PORT || 2715,
     exp: process.env.EXP || 86400,
-    url: process.env.LINK || "localhost:2715"
+    url: process.env.LINK || 'localhost:2715'
   }
 }

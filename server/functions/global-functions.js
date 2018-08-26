@@ -1,14 +1,13 @@
 'use strict'
 
-const Debug = require('debug')
+// const Debug = require('debug')
 const config = require('../config')
 const usersModel = require('../models/users-model')
 const jwt = require('jsonwebtoken')
 const helper = require('sendgrid').mail
-const debug = new Debug(`${config.settings.name}:functions:users`)
+// const debug = new Debug(`${config.settings.name}:functions:users`)
 const async = require('async')
-const chalk = require('chalk')
-
+// const chalk = require('chalk')
 
 // function find user by email
 export function findUserByEmail (email) {
@@ -90,14 +89,13 @@ export function handleError (res) {
   })
 }
 
-
 export function handleFatalError (res, err) {
+  // process.exit(1)
   return res.status(500).json({
     status: 500,
     message: 'A fatal error has occurred',
     error: err.message || 'Faltal error'
   })
-  process.exit(1)
 }
 
 // function send email with create user
@@ -129,29 +127,16 @@ export function sendEmail (
           body: mail.toJSON()
         })
         sg.API(request, function (error, response) {
-          // console.log('SendGrid');
           if (error) {
             console.log('Error response received')
-            return res.status(500).json({
-              status: 500,
-              error: error.message,
-              stack: error.stack
-            })
           }
-          // console.log(response.statusCode);
-          // console.log(response.body);
-          // console.log(response.headers);
         })
       }
       callback(null, true)
     }
   ], function (err, results) {
     if (err) {
-      return res.status(500).json({
-        status: 500,
-        error: err.message,
-        stack: err.stack
-      })
+      console.log(err)
     } else {
       console.log('Done: ', results)
     }

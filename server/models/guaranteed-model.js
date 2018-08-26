@@ -8,12 +8,12 @@ export const guaranteeds = [{
     createdAt: new Date(),
     numberOfPeople: 3,
     characteristics: [
-      "smokers",
-      "bar",
-      "table",
-      "nearWindow",
-      "nearKitchen",
-      "nearExit"
+      'smokers',
+      'bar',
+      'table',
+      'nearWindow',
+      'nearKitchen',
+      'nearExit'
     ]
   }]
 }]

@@ -1,7 +1,6 @@
 'use strict'
 
 const express = require('express')
-const chalk = require('chalk')
 const { loginUserFunction, createUserFunction,
   activateUserFunction, changeBirthdayUserFunction, changePasswordUserFunction, changeEmailUserFunction,
   changeAvatarUserFunction,

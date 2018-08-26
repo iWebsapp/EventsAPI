@@ -5,8 +5,8 @@ const Schema = mongoose.Schema
 const { ObjectId } = Schema.Types
 
 const ReviewsSchema = Schema({
-  _place: { type:ObjectId, ref: 'places', required: true },
-  _user: { type:ObjectId, ref: 'users', required: true },
+  _place: { type: ObjectId, ref: 'places', required: true },
+  _user: { type: ObjectId, ref: 'users', required: true },
   message: { type: String, required: true },
   picture: { type: String },
   createdAt: { type: String, default: Date.now, required: true }

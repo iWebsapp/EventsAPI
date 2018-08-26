@@ -1,9 +1,8 @@
 'use strict'
 
 const express = require('express')
-const chalk = require('chalk')
 const { createPrivacyFunction, deletePrivacyFunction, allPrivacyFunction,
-        verifyHeadersTokenFunction, handleError, handleFatalError  } = require('../functions')
+  verifyHeadersTokenFunction, handleError, handleFatalError } = require('../functions')
 const { addAboutValid } = require('../validations')
 const app = express.Router()
 // const guard = require('express-jwt-permissions')()
@@ -59,7 +58,5 @@ app.delete('/delete', verifyHeadersTokenFunction, deletePrivacyFunction, (req, r
     return handleFatalError(res, err)
   }
 })
-
-
 
 export default app
