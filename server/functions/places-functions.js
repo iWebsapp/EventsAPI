@@ -62,6 +62,7 @@ export const createPlaceFunction = async (req, res, next) => {
   const token = req.token
   const verify = verifyToken(token)
   if (verify === 'Correct verification'){
+    debug( req.body )
     const { name } = req.body
     const placeName = await Places.findOne({ name })
     if ( placeName == undefined ) {

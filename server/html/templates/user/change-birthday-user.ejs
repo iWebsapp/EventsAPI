@@ -1,0 +1,86 @@
+<div class="d-flex align-items-center p-3 my-3 text-white-50 bg-primary rounded shadow-sm">
+    <div class="lh-100">
+      <h6 class="mb-0 text-white lh-100">Change birthday with account</h6>
+      <p class="text-info-doc">This service is change birthday with account.</p>
+    </div>
+</div>
+
+<div class="my-3 p-3 bg-white rounded shadow-sm">
+    <div class="media text-muted pt-3">
+      <img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded">
+      <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <strong class="text-gray-dark">Web service path: POST</strong>
+          <p class="note-params">NOTE: This route requires a valid token, on the contrary it will not have access.</p>
+        </div>
+        <span class="d-block">
+          <a class="link-block" href="<%=url %>/change/birthday" target="_blank"><%=url %>/change/birthday</a>
+        </span>
+      </div>
+    </div>
+    <div class="media text-muted pt-3">
+      <img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded">
+      <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <strong class="text-gray-dark">Params</strong>
+        </div>
+        <span class="d-block">
+          <li class="list-params"><strong>birthday</strong> This fields required in the next format: dd/mm/yyyy</li>
+        </span>
+      </div>
+    </div>
+    <div class="media text-muted pt-3">
+      <img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded">
+      <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <strong class="text-gray-dark">Response status 200</strong>
+        </div>
+        <span class="d-block">
+            <p class="p-block">This response happens when the birthday has been changed successfully.</p>
+            <code class="code-success">
+              {
+                  "status": 200,
+                  "message": "The birthday has been changed with this user"
+              }
+            </code>
+        </span>
+      </div>
+    </div>
+
+    <div class="media text-muted pt-3">
+      <img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded">
+      <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <strong class="text-gray-dark">Response status 401</strong>
+        </div>
+        <span class="d-block">
+            <p class="p-block">This response occurs when the token is invalid.</p>
+            <code class="code-tokenInvlid">
+              {
+                status: 401,
+                message: 'This token is invalid'
+              }
+            </code>
+        </span>
+      </div>
+    </div>
+
+    <div class="media text-muted pt-3">
+      <img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded">
+      <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <strong class="text-gray-dark">Response status 500</strong>
+        </div>
+        <span class="d-block">
+            <p class="p-block">This response occurs when an unexpected error occurred.</p>
+            <code class="code-unexpected-error">
+              {
+                "status": 500,
+                "error": "Here is the error message"
+              }
+            </code>
+        </span>
+      </div>
+    </div>
+
+</div>

@@ -32,11 +32,12 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(formData.parse(options))
 app.use(formData.format())
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV == 'development') {
   app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Request-With, Content-Type, Accept')
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Request-With, Content-Type, Accept, X-Requested-With, content-type')
     res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PATCH, DELETE, OPTIONS')
+    res.setHeader('Access-Control-Allow-Credentials', true)
     next()
   })
 }
@@ -67,7 +68,7 @@ app.get('/', function (req, res) {
 })
 
 // ALL ROUTES FROM SRC
-app.use('/src', src)
+app.use('/api/v1/src', src)
 // ALL ROUTES FROM DOCS
 app.use('/docs/v1', docs)
 

@@ -6,6 +6,30 @@ body {
   font-size: .875rem;
   background: #eee;
 }
+
+.code-success{
+  color: #58FA58;
+}
+
+.code-tokenInvlid{
+  color: #A901DB;
+}
+
+.code-unexpected-error{
+  color: #FF0040;
+}
+
+.note-params{
+  color: #FA5882;
+}
+
+.text-info-doc{
+  font-size: 15px;
+  display: block;
+  margin-bottom: 0px;
+  margin-top: 5px;
+}
+
 h6{
   color: #000;
 }

@@ -19,7 +19,40 @@ export const addPlacesValid = (req, res, next) => {
     }
   }
 
-  if (req.files.picture) {
+  if (!req.body.services) {
+    const v = { fields: 'services', message: 'The services is required' }
+    validater.push(v)
+  } else {
+    if (req.body.services.length < 5) {
+      const v = { fields: 'services', message: 'The services must have more than 5 characters' }
+      validater.push(v)
+    }
+  }
+
+  if (!req.body.description) {
+    const v = { fields: 'description', message: 'The description is required' }
+    validater.push(v)
+  } else {
+    if (req.body.description.length < 5) {
+      const v = { fields: 'description', message: 'The description must have more than 5 characters' }
+      validater.push(v)
+    }
+  }
+
+  if (!req.body.address) {
+    const v = { fields: 'address', message: 'The address is required' }
+    validater.push(v)
+  } else {
+    if (req.body.address.length < 5) {
+      const v = { fields: 'address', message: 'The address must have more than 5 characters' }
+      validater.push(v)
+    }
+  }
+
+  if (!req.files.picture) {
+    const v = { fields: 'picture', message: 'The picture is required' }
+    validater.push(v)
+  } else {
     if (req.files.picture.type !== 'image/jpeg') {
       if (req.files.picture.type !== 'image/png') {
         const v = { fields: 'picture', message: 'The picture ( png, jpeg )' }
@@ -122,36 +155,6 @@ export const addPlacesValid = (req, res, next) => {
   if (req.body.instagram) {
     if (req.body.instagram.length < 5) {
       const v = { fields: 'instagram', message: 'The instagram must have more than 5 characters' }
-      validater.push(v)
-    }
-  }
-
-  if (!req.body.services) {
-    const v = { fields: 'services', message: 'The services is required' }
-    validater.push(v)
-  } else {
-    if (req.body.services.length < 5) {
-      const v = { fields: 'services', message: 'The services must have more than 5 characters' }
-      validater.push(v)
-    }
-  }
-
-  if (!req.body.description) {
-    const v = { fields: 'description', message: 'The description is required' }
-    validater.push(v)
-  } else {
-    if (req.body.description.length < 5) {
-      const v = { fields: 'description', message: 'The description must have more than 5 characters' }
-      validater.push(v)
-    }
-  }
-
-  if (!req.body.address) {
-    const v = { fields: 'address', message: 'The address is required' }
-    validater.push(v)
-  } else {
-    if (req.body.address.length < 5) {
-      const v = { fields: 'address', message: 'The address must have more than 5 characters' }
       validater.push(v)
     }
   }
