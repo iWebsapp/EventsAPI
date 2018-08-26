@@ -24,7 +24,6 @@ app.post('/create/:id', verifyHeadersTokenFunction, idValid, addReviewValid, cre
   }
 })
 
-
 app.get('/all/:id', verifyHeadersTokenFunction, idValid, getAllReviewPlacesFunction, (req, res, next) => {
   try {
     const { message, data } = req
