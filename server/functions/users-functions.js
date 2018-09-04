@@ -51,7 +51,7 @@ export const loginUserFunction = async (req, res, next) => {
   const { email, password } = req.body
   const user = await User.findOne({ email })
   if (user !== null) {
-    if (user['state'] === 0 || user['state'] === 1) {
+    if (user['state'] === '0' || user['state'] === '1') {
       if (!(user['password'] === password)) {
         res.status(400).json({ status: 400, message: 'The password do not match' })
       } else {
