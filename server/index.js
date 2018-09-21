@@ -11,6 +11,7 @@ const formData = require('express-form-data')
 const docs = require('./html')
 const src = require('./src-router')
 const mongoose = require('mongoose')
+const helmet = require('helmet');
 // MODULE CHAT
 const app = express()
 const { users, about, privacy, help, report, places, placesinfo, placesreview } = require('./routes')
@@ -27,10 +28,15 @@ const options = {
 
 // uploadDir: 'imgs',
 app.set('view engine', 'ejs')
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(formData.parse(options))
-app.use(formData.format())
+app.use( bodyParser.json() )
+app.use( bodyParser.urlencoded({ extended: true }) )
+app.use( formData.parse(options) )
+app.use( formData.format() )
+app.use( helmet.noCache() )
+app.use( helmet.frameguard() )
+app.use( helmet.xssFilter() )
+app.use(helmet())
+app.disable('x-powered-by')
 
 if (process.env.NODE_ENV === 'development') {
   app.use((req, res, next) => {

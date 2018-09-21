@@ -12,7 +12,7 @@ const fs = require('fs')
 export const createUserFunction = async (req, res, next) => {
   const { email, password } = req.body
   const user = await User.findOne({ email })
-  if (user === undefined) {
+  if (user == undefined) {
     const u = new User({
       email,
       password,
@@ -56,12 +56,13 @@ export const loginUserFunction = async (req, res, next) => {
         res.status(400).json({ status: 400, message: 'The password do not match' })
       } else {
         const token = createToken(user)
+        const newToken = token.split(" ", 2)
         req.message = 'Login success'
-        req.token = token
+        req.token = newToken[0]
         next()
       }
     } else {
-      res.status(500).json({ status: 500, message: 'This user not has been activated' })
+      res.status(501).json({ status: 500, message: 'This user not has been activated' })
     }
   } else {
     res.status(404).json({ status: 404, message: 'User not found' })
