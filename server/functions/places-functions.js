@@ -50,9 +50,12 @@ export function dataMenuPlaces (u) {
     items: [{
       icon: 'icon-info',
       title: 'Información'
-    }, {
+    },{
       icon: 'icon-comments',
       title: 'Comentarios'
+    },{
+      icon: 'icon-friend',
+      title: 'Amigos'
     }]
   })
   return menu
